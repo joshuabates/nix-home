@@ -1,7 +1,9 @@
-{ pkgs, ... }: {
+{ pkgs, config, home, ... }: {
 
-  home.homeDirectory = config.users.users.${home.username}.home;
+  home.homeDirectory = "/Users/joshuabates";
+  # config.users.users.${home.username}.home;
   home.packages = with pkgs; [
     mas
   ];
+  home.stateVersion = "24.05";
 }

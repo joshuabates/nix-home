@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
   environment = {
     shells = with pkgs; [ bash zsh fish];
     loginShell = pkgs.fish;
@@ -6,4 +6,5 @@
     systemPath = [ "/usr/local/bin" ];
     pathsToLink = [ "/Applications" ];
   };
+
 }

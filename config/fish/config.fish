@@ -6,9 +6,6 @@ if status is-interactive
     alias vi='nvim'
     alias vim='nvim'
 
-    alias oc='kitty --single-instance -o allow_remote_control=yes --listen-on unix:/tmp/mykitty --start-as=maximized --session ~/.config/kitty/oc.conf &'
-    alias dots='kitty --single-instance -o allow_remote_control=yes --listen-on unix:/tmp/mykitty --start-as=maximized --session ~/.config/kitty/dots.conf &'
-
     # Rails
     alias rsc='ruby script/rails c'
     alias b='bundle exec'
@@ -45,9 +42,6 @@ if status is-interactive
     alias grc='git rebase --continue'
     alias gsl='git show $(git stash list | cut -d":" -f 1)'
     alias gsp='git stash && git pull && git stash pop'
-
-    # TODO: default to staging
-    alias hrc='env TERM=xterm-256color heroku run rails console -a'
 
     export LC_CTYPE=en_US.UTF-8
     export EDITOR="nvim"
@@ -102,24 +96,14 @@ fish_add_path /opt/homebrew/bin
 # export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 # set --export FZF_DEFAULT_OPTS '--cycle --layout=reverse --border --height=90% --preview-window=wrap --marker="*"'
 # export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
-source ~/.asdf/asdf.fish
+# source ~/.asdf/asdf.fish
 
 # pyenv init - | source
 
 fish_add_path "./bin"
 direnv hook fish | source
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/joshua/google-cloud-sdk/path.fish.inc' ]
-    . '/Users/joshua/google-cloud-sdk/path.fish.inc'
-end
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-if test -f /Users/joshua/miniconda3/bin/conda
-    eval /Users/joshua/miniconda3/bin/conda "shell.fish" hook $argv | source
-end
-# <<< conda initialize <<<
-
-# Created by `pipx` on 2023-10-20 20:31:41
 set -U PATH $PATH /Users/joshua/.local/bin
+if test -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish'
+  source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish'
+end

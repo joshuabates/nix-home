@@ -9,17 +9,25 @@
     };
     casks = [ 
       "alfred"
-      "firefox"
+      "arq"
+      "kitty"
+      "microsoft-edge"
+      "bettertouchtool"
+      "chatgpt"
+      "cyberduck"
+      "daisydisk"
+      "docker"
+      "figma"
+      "iina"
+      "little-snitch"
+      # "firefox"
       "spotify"
+      "transmission"
       "visual-studio-code"
       "brave-browser"
-      "font-sf-mono-nerd-font"
-    ];
-    taps = [
-      "homebrew/core"
-      "homebrew/cask"
-      "homebrew/cask-fonts"
-      "cmacrae/formulae"
+      "wireshark"
+      "xld"
+      # "font-sf-mono-nerd-font"
     ];
   };
 }

@@ -2,7 +2,7 @@
 
   system = {
     keyboard.enableKeyMapping = true;
-    keyboard.remapCapsLockToEscape = true;
+    keyboard.remapCapsLockToControl = true;
 
     defaults = {  
       NSGlobalDomain = {
@@ -26,7 +26,7 @@
   security.pam.enableSudoTouchIdAuth = true;
   services.nix-daemon.enable = true;
 
-  fonts.fontconfig.enable = true;
+  # fonts.fontconfig.enable = true;
   
   # backwards compat; don't change?
   system.stateVersion = 4;

@@ -12,16 +12,6 @@ local function on_attach(on_attach)
 	})
 end
 
--- function M.diagnostic_goto(next, severity)
---   local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
---   severity = severity and vim.diagnostic.severity[severity] or nil
---   return function()
---     go({ severity = severity })
---   end
--- end
---
--- return M
-
 local function setup_lsp_keymaps(bufnr)
 	local opts = { noremap = true, silent = true }
 	local keymap = vim.api.nvim_buf_set_keymap
@@ -44,63 +34,10 @@ local function setup_lsp_keymaps(bufnr)
 	keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
 	keymap(bufnr, "n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
 	keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-	--   { "<leader>cd", vim.diagnostic.open_float, desc = "Line Diagnostics" },
-	--   { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
-	--   { "gd", "<cmd>Telescope lsp_definitions<cr>", desc = "Goto Definition", has = "definition" },
-	--   { "gr", "<cmd>Telescope lsp_references<cr>", desc = "References" },
-	--   { "gD", vim.lsp.buf.declaration, desc = "Goto Declaration" },
-	--   { "gI", "<cmd>Telescope lsp_implementations<cr>", desc = "Goto Implementation" },
-	--   { "gy", "<cmd>Telescope lsp_type_definitions<cr>", desc = "Goto T[y]pe Definition" },
-	--   { "K", vim.lsp.buf.hover, desc = "Hover" },
-	--   { "gK", vim.lsp.buf.signature_help, desc = "Signature Help", has = "signatureHelp" },
-	--   { "<c-k>", vim.lsp.buf.signature_help, mode = "i", desc = "Signature Help", has = "signatureHelp" },
-	--   { "]d", M.diagnostic_goto(true), desc = "Next Diagnostic" },
-	--   { "[d", M.diagnostic_goto(false), desc = "Prev Diagnostic" },
-	--   { "]e", M.diagnostic_goto(true, "ERROR"), desc = "Next Error" },
-	--   { "[e", M.diagnostic_goto(false, "ERROR"), desc = "Prev Error" },
-	--   { "]w", M.diagnostic_goto(true, "WARN"), desc = "Next Warning" },
-	--   { "[w", M.diagnostic_goto(false, "WARN"), desc = "Prev Warning" },
-	--   { "<leader>cf", format, desc = "Format Document", has = "documentFormatting" },
-	--   { "<leader>cf", format, desc = "Format Range", mode = "v", has = "documentRangeFormatting" },
-	--   { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" },
-	--   {
-	--     "<leader>cA",
-	--     function()
-	--       vim.lsp.buf.code_action({
-	--         context = {
-	--           only = {
-	--             "source",
-	--           },
-	--           diagnostics = {},
-	--         },
-	--       })
-	--     end,
-	--     desc = "Source Action",
-	--     has = "codeAction",
-	--   }
-	-- }
-	-- if require("lazyvim.util").has("inc-rename.nvim") then
-	--   M._keys[#M._keys + 1] = {
-	--     "<leader>cr",
-	--     function()
-	--       local inc_rename = require("inc_rename")
-	--       return ":" .. inc_rename.config.cmd_name .. " " .. vim.fn.expand("<cword>")
-	--     end,
-	--     expr = true,
-	--     desc = "Rename",
-	--     has = "rename",
-	--   }
-	-- else
-	--   M._keys[#M._keys + 1] = { "<leader>cr", vim.lsp.buf.rename, desc = "Rename", has = "rename" }
-	-- end
-	-- nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-	-- nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
-	-- nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
 end
 
 return {
 	"ray-x/lsp_signature.nvim",
-	-- "jose-elias-alvarez/typescript.nvim",
 	{
 		"pmizio/typescript-tools.nvim",
 		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
@@ -110,12 +47,8 @@ return {
 				on_attach = function(client, bufnr)
 					client.server_capabilities.documentFormattingProvider = false
 					client.server_capabilities.documentRangeFormattingProvider = false
-					if vim.fn.has("nvim-0.10") then
-						-- Enable inlay hints
-						vim.lsp.inlay_hint.enable(bufnr, true)
-					end
+          vim.lsp.inlay_hint.enable(bufnr, true)
 				end,
-				-- handlers = handlers,
 				settings = {
 					separate_diagnostic_server = true,
 					code_lens = "off",
@@ -128,18 +61,14 @@ return {
 			})
 		end,
 	},
-	-- lspconfig
 	{
 		"neovim/nvim-lspconfig",
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			{ "folke/neoconf.nvim", cmd = "Neoconf", config = true },
 			{ "folke/neodev.nvim", opts = {} },
-			"mason.nvim",
-			{ "williamboman/mason-lspconfig.nvim", opts = { automatic_installation = true } },
 			"hrsh7th/cmp-nvim-lsp",
 		},
-		---@class PluginLspOpts
 		opts = {
 			-- options for vim.diagnostic.config()
 			diagnostics = {
@@ -178,23 +107,15 @@ return {
 					return client.name ~= "solargraph"
 				end,
 			},
-			-- LSP Server Settings
-			---@type lspconfig.options
-			-- turn off formatting
-			--
-			--
 			servers = {
 				jsonls = {},
-				ruby_ls = {
-					mason = false,
+				ruby_lsp = {
 					-- cmd = { "bundle", "exec", "ruby-lsp" },
-					-- cmd = { "bundle", "exec", "ruby-lsp" },
-					cmd = { os.getenv("HOME") .. "/.asdf/shims/ruby-lsp" },
 					init_options = {
 						formatter = false,
 					},
 					settings = {
-            ruby_ls = {
+            ruby_lsp = {
 							autoformat = false,
 							completion = true,
 							diagnostics = false,
@@ -208,10 +129,8 @@ return {
         stylelint_lsp = {},
         cssmodules_ls = {},
 				solargraph = {
-					mason = false,
 					-- See: https://medium.com/@cristianvg/neovim-lsp-your-rbenv-gemset-and-solargraph-8896cb3df453
-					cmd = { os.getenv("HOME") .. "/.asdf/shims/solargraph", "stdio" },
-					root_dir = require("lspconfig").util.root_pattern("Gemfile", ".git", "."),
+					-- root_dir = require("lspconfig").util.root_pattern("Gemfile", ".git", "."),
 					capabilities = { documentFormattingProvider = false },
 					settings = {
 						solargraph = {
@@ -310,28 +229,8 @@ return {
 				require("lspconfig")[server].setup(server_opts)
 			end
 
-			-- get all the servers that are available thourgh mason-lspconfig
-			local have_mason, mlsp = pcall(require, "mason-lspconfig")
-			local all_mslp_servers = {}
-			if have_mason then
-				all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
-			end
-
-			local ensure_installed = {} ---@type string[]
 			for server, server_opts in pairs(servers) do
-				if server_opts then
-					server_opts = server_opts == true and {} or server_opts
-					-- run manual setup if mason=false or if this is a server that cannot be installed with mason-lspconfig
-					if server_opts.mason == false or not vim.tbl_contains(all_mslp_servers, server) then
-						setup(server)
-					else
-						ensure_installed[#ensure_installed + 1] = server
-					end
-				end
-			end
-
-			if have_mason then
-				mlsp.setup({ ensure_installed = ensure_installed, handlers = { setup } })
+        setup(server)
 			end
 		end,
 	},
@@ -391,39 +290,6 @@ return {
 					require("conform").format({ bufnr = args.buf })
 				end,
 			})
-		end,
-	},
-
-	{
-
-		"williamboman/mason.nvim",
-		cmd = "Mason",
-		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
-		opts = {
-			ensure_installed = {
-				"stylua",
-				"shfmt",
-				-- "tsserver",
-				-- "flake8",
-			},
-		},
-		---@param opts MasonSettings | {ensure_installed: string[]}
-		config = function(_, opts)
-			require("mason").setup(opts)
-			local mr = require("mason-registry")
-			local function ensure_installed()
-				for _, tool in ipairs(opts.ensure_installed) do
-					local p = mr.get_package(tool)
-					if not p:is_installed() then
-						p:install()
-					end
-				end
-			end
-			if mr.refresh then
-				mr.refresh(ensure_installed)
-			else
-				ensure_installed()
-			end
 		end,
 	},
 }

@@ -13,20 +13,21 @@
     };
   };
 
-  outputs = { self, darwin, nixpkgs }: {
+  outputs = { self, darwin, home-manager, nixpkgs }: {
+    supportedSystems = ["aarch64-darwin"];
     darwinConfigurations =
     let
       mkDarwinWorkstation = username: name: system: darwin.lib.darwinSystem {
         inherit system;
-        specialArgs = attrs // { inherit username; };
         modules = [
           ({ config, pkgs, ... }: {
             users.users.${username} = {
               name = username;
               home = "/Users/${username}";
+              shell = pkgs.fish;
             };
           })
-          ./modules/common
+          ./modules/common.nix
           ./modules/darwin
           home-manager.darwinModules.home-manager
           {
@@ -43,8 +44,8 @@
       };
     in
     {
-      m3-slate = mkDarwinWorkstation "joshuabates" "m3-slate" "aarch64-darwin";
-      studio = mkDarwinWorkstation "joshua" "studio" "aarch64-darwin";
+      jbatesm3-mbp16 = mkDarwinWorkstation "joshuabates" "jbatesm3-mbp16" "aarch64-darwin";
+      #studio = mkDarwinWorkstation "joshua" "studio" "aarch64-darwin";
     };
 
     nixosConfigurations = 

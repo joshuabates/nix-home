@@ -1,11 +1,14 @@
 { pkgs, config, ... }: {
 
-  home.username = builtins.head (builtins.attrNames config.users.users);
+  imports = [ ./programs/git.nix ./programs/fish.nix ./programs/kitty ];
+  home.username = "joshuabates";
+  # builtins.head (builtins.attrNames config.users);
 
   home.packages = with pkgs; [
+    fira-code-nerdfont
+    # nerdfonts.override { fonts = [ "FiraCode" ]; }
     wget
     curl
-    git
     unzip
     htop
     gnugrep
@@ -13,17 +16,29 @@
     openssl
     gnumake
     fish
+    delta
     
     # Development tools
+    neovim
     gcc
-    python
     poetry
     nodejs
     yarn
     ruby
+    ruby-lsp
     sqlite
+    direnv
+    lazygit
+
+    vscode-langservers-extracted
+    stylelint-lsp
+    rubyPackages.solargraph
+    # rubyPackages.standard (doesnt exist)
+
+    # cssmodules-language-server (doesnt exist)
     
     # Other utilities
+    silver-searcher
     ripgrep
     jq
     tree-sitter
@@ -31,8 +46,12 @@
   ];
 
   home.file = {
-    ".config/nvim".source = config/nvim;
-    ".config/fish".source = config/fish;
+    ".config/nvim" = {
+      source = config.lib.file.mkOutOfStoreSymlink ../../config/nvim;
+      recursive = true;
+    };
+    # "./.config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/modules/shared/config/neovim";
+    #".config/fish".source = ../../config/fish;
   };
 
   programs = {
@@ -40,6 +59,9 @@
       enable = true;
       enableFishIntegration = true;
     };
-    git.enable = true;
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
   };
 }
