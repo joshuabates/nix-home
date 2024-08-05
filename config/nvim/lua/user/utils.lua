@@ -92,4 +92,43 @@ M.with_cursor_restore = function(fn)
   end
 end
 
+M.is_gem_in_bundle = function(gem_name)
+  -- local cmd = string.format("bundle show %s", gem_name)
+  local cmd = string.format("bundle show %s 2>/dev/null", gem_name)
+  local handle = io.popen(cmd)
+  local result = handle:read("*a")
+  handle:close()
+  return result ~= ""
+end
+
+M.maybeGemCmd = function(gem_name, extra_args)
+  local gem_cmd_override = {
+    ["standard"] = "standardrb",
+    -- Add more overrides as needed
+  }
+
+  local cmd_name = gem_cmd_override[gem_name] or gem_name
+  local cmd
+
+  if M.is_gem_in_bundle(gem_name) then
+  -- if vim.fn.filereadable("Gemfile") == 1 and M.is_gem_in_bundle(gem_name) then
+    cmd = { vim.fn.exepath("bundle"), "exec", cmd_name }
+  else
+    local system_cmd = vim.fn.exepath(cmd_name)
+    if system_cmd ~= "" then
+      cmd = { system_cmd }
+    else
+      cmd = { vim.fn.exepath("ruby"), "-S", cmd_name }
+    end
+  end
+  print(vim.inspect(cmd))
+  
+  if extra_args then
+    for _, arg in ipairs(extra_args) do
+      table.insert(cmd, arg)
+    end
+  end
+  
+  return cmd
+end
 return M

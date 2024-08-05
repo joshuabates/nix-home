@@ -36,10 +36,9 @@
       set -x EDITOR "nvim"
       set -x EVENT_NOKQUEUE 1
       set -x FD_SETSIZE 10000
-      
-      direnv hook fish | source
     '';
     shellAliases = {
+      ls = "eza";
       ssh = "kitty +kitten ssh";
       psg = "ps aux | grep";
       vi = "nvim";

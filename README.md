@@ -6,5 +6,8 @@ nix run nix-darwin -- switch --flake .
 chsh -s /run/current-system/sw/bin/fish
 
 # TODO:
+better prompt:
+    - always on bottom
+    - single line
 treesitter?
 neovim lsps?

@@ -2,6 +2,8 @@ if vim.g.vscode then
 	return
 end
 
+local utils = require("user.utils")
+
 local function on_attach(on_attach)
 	vim.api.nvim_create_autocmd("LspAttach", {
 		callback = function(args)
@@ -35,6 +37,7 @@ local function setup_lsp_keymaps(bufnr)
 	keymap(bufnr, "n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
 	keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 end
+
 
 return {
 	"ray-x/lsp_signature.nvim",
@@ -110,7 +113,7 @@ return {
 			servers = {
 				jsonls = {},
 				ruby_lsp = {
-					-- cmd = { "bundle", "exec", "ruby-lsp" },
+          cmd = utils.maybeGemCmd("ruby-lsp"),
 					init_options = {
 						formatter = false,
 					},
@@ -129,6 +132,7 @@ return {
         stylelint_lsp = {},
         cssmodules_ls = {},
 				solargraph = {
+          cmd = utils.maybeGemCmd("solargraph", { "stdio" }),
 					-- See: https://medium.com/@cristianvg/neovim-lsp-your-rbenv-gemset-and-solargraph-8896cb3df453
 					-- root_dir = require("lspconfig").util.root_pattern("Gemfile", ".git", "."),
 					capabilities = { documentFormattingProvider = false },
@@ -145,7 +149,10 @@ return {
 					},
 				},
 				cssls = {},
-				standardrb = {},
+				standardrb = {
+          cmd = utils.maybeGemCmd("standard", { "--lsp" }),
+        },
+
 				-- lua_ls = {
 				-- 	settings = {
 				-- 		Lua = {

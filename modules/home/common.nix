@@ -6,7 +6,6 @@
 
   home.packages = with pkgs; [
     fira-code-nerdfont
-    # nerdfonts.override { fonts = [ "FiraCode" ]; }
     wget
     curl
     unzip
@@ -17,8 +16,6 @@
     gnumake
     fish
     delta
-    
-    # Development tools
     neovim
     gcc
     poetry
@@ -29,20 +26,20 @@
     sqlite
     direnv
     lazygit
+    awscli2
+    aws-mfa
 
+    nodePackages.typescript-language-server
     vscode-langservers-extracted
     stylelint-lsp
     rubyPackages.solargraph
     # rubyPackages.standard (doesnt exist)
-
     # cssmodules-language-server (doesnt exist)
     
-    # Other utilities
     silver-searcher
     ripgrep
     jq
     tree-sitter
-    lazygit
   ];
 
   home.file = {
@@ -50,8 +47,6 @@
       source = config.lib.file.mkOutOfStoreSymlink ../../config/nvim;
       recursive = true;
     };
-    # "./.config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/modules/shared/config/neovim";
-    #".config/fish".source = ../../config/fish;
   };
 
   programs = {
@@ -62,6 +57,11 @@
     direnv = {
       enable = true;
       nix-direnv.enable = true;
+      config = {
+        global = {
+          hide_env_diff = true; 
+        };
+      };
     };
   };
 }

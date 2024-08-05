@@ -14,7 +14,7 @@
   };
 
   outputs = { self, darwin, home-manager, nixpkgs }: {
-    supportedSystems = ["aarch64-darwin"];
+    # supportedSystems = ["aarch64-darwin"];
     darwinConfigurations =
     let
       mkDarwinWorkstation = username: name: system: darwin.lib.darwinSystem {
@@ -73,7 +73,6 @@
       };
     in
     {
-      # Add your NixOS configurations here
       # example-nixos = mkNixOSWorkstation "username" "hostname" "x86_64-linux";
     };
   };
