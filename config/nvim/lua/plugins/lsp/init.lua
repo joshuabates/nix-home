@@ -73,7 +73,6 @@ return {
 			"hrsh7th/cmp-nvim-lsp",
 		},
 		opts = {
-			-- options for vim.diagnostic.config()
 			diagnostics = {
 				underline = true,
 				update_in_insert = false,
@@ -81,28 +80,16 @@ return {
 					spacing = 4,
 					source = "if_many",
 					prefix = "●",
-					-- this will set set the prefix to a function that returns the diagnostics icon based on the severity
-					-- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
 					-- prefix = "icons",
 				},
 				severity_sort = true,
 			},
-			-- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
-			-- Be aware that you also will need to properly configure your LSP server to
-			-- provide the inlay hints.
 			inlay_hints = {
 				enabled = false,
 			},
-			-- add any global capabilities here
 			capabilities = {},
-			-- Automatically format on save
 			autoformat = true,
-			-- Enable this to show formatters used in a notification
-			-- Useful for debugging formatter issues
 			format_notify = false,
-			-- options for vim.lsp.buf.format
-			-- `bufnr` and `filter` is handled by the LazyVim formatter,
-			-- but can be also overridden when specified
 			format = {
 				formatting_options = nil,
 				timeout_ms = nil,
@@ -111,9 +98,26 @@ return {
 				end,
 			},
 			servers = {
-				jsonls = {},
+				jsonls = {
+          cmd = utils.maybe_yarn_cmd("vscode-json-language-server", { "--stdio" }),
+        },
+				yamlls = {
+          cmd = utils.maybe_yarn_cmd("yaml-language-server", { "--stdio" }),
+        },
+				cssls = {
+          cmd = utils.maybe_yarn_cmd("vscode-css-language-server", { "--stdio" }),
+        },
+        stylelint_lsp = {
+          cmd = utils.maybe_yarn_cmd("stylelint-lsp", { "--stdio" }),
+        },
+        cssmodules_ls = {
+          cmd = utils.maybe_yarn_cmd("cssmodules-language-server"),
+        },
+				standardrb = {
+          cmd = utils.maybe_gem_cmd("standard", { "--lsp" }),
+        },
 				ruby_lsp = {
-          cmd = utils.maybeGemCmd("ruby-lsp"),
+          cmd = utils.maybe_gem_cmd("ruby-lsp"),
 					init_options = {
 						formatter = false,
 					},
@@ -123,16 +127,15 @@ return {
 							completion = true,
 							diagnostics = false,
 							folding = false,
-							references = false,
+							references = true,
 							rename = true,
-							symbols = false,
+							-- symbols = false,
             }
           },
 				},
-        stylelint_lsp = {},
-        cssmodules_ls = {},
 				solargraph = {
-          cmd = utils.maybeGemCmd("solargraph", { "stdio" }),
+          enable = false,
+          cmd = utils.maybe_gem_cmd("solargraph", { "stdio" }),
 					-- See: https://medium.com/@cristianvg/neovim-lsp-your-rbenv-gemset-and-solargraph-8896cb3df453
 					-- root_dir = require("lspconfig").util.root_pattern("Gemfile", ".git", "."),
 					capabilities = { documentFormattingProvider = false },
@@ -148,10 +151,30 @@ return {
 						},
 					},
 				},
-				cssls = {},
-				standardrb = {
-          cmd = utils.maybeGemCmd("standard", { "--lsp" }),
-        },
+        lua_ls = {
+          on_init = function(client)
+            local path = client.workspace_folders[1].name
+            if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
+              return
+            end
+
+            client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+              runtime = {
+                version = 'LuaJIT'
+              },
+              -- Make the server aware of Neovim runtime files
+              workspace = {
+                checkThirdParty = false,
+                library = {
+                  vim.env.VIMRUNTIME
+                  -- Depending on the usage, you might want to add additional paths here.
+                  -- "${3rd}/luv/library"
+                  -- "${3rd}/busted/library",
+                }
+              }
+            })
+          end,
+        }
 
 				-- lua_ls = {
 				-- 	settings = {
@@ -188,13 +211,13 @@ return {
 				})
 			end)
 
-			if opts.inlay_hints.enabled and vim.lsp.buf.inlay_hint then
-				on_attach(function(client, buffer)
-					if client.server_capabilities.inlayHintProvider then
-						vim.lsp.buf.inlay_hint(buffer, true)
-					end
-				end)
-			end
+			-- if opts.inlay_hints.enabled and vim.lsp.buf.inlay_hint then
+			-- 	on_attach(function(client, buffer)
+			-- 		if client.server_capabilities.inlayHintProvider then
+			-- 			vim.lsp.buf.inlay_hint(buffer, true)
+			-- 		end
+			-- 	end)
+			-- end
 
 			-- if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
 			--   opts.diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"

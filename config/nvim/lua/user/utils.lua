@@ -93,7 +93,6 @@ M.with_cursor_restore = function(fn)
 end
 
 M.is_gem_in_bundle = function(gem_name)
-  -- local cmd = string.format("bundle show %s", gem_name)
   local cmd = string.format("bundle show %s 2>/dev/null", gem_name)
   local handle = io.popen(cmd)
   local result = handle:read("*a")
@@ -101,7 +100,7 @@ M.is_gem_in_bundle = function(gem_name)
   return result ~= ""
 end
 
-M.maybeGemCmd = function(gem_name, extra_args)
+M.maybe_gem_cmd = function(gem_name, extra_args)
   local gem_cmd_override = {
     ["standard"] = "standardrb",
     -- Add more overrides as needed
@@ -111,7 +110,6 @@ M.maybeGemCmd = function(gem_name, extra_args)
   local cmd
 
   if M.is_gem_in_bundle(gem_name) then
-  -- if vim.fn.filereadable("Gemfile") == 1 and M.is_gem_in_bundle(gem_name) then
     cmd = { vim.fn.exepath("bundle"), "exec", cmd_name }
   else
     local system_cmd = vim.fn.exepath(cmd_name)
@@ -121,7 +119,6 @@ M.maybeGemCmd = function(gem_name, extra_args)
       cmd = { vim.fn.exepath("ruby"), "-S", cmd_name }
     end
   end
-  print(vim.inspect(cmd))
   
   if extra_args then
     for _, arg in ipairs(extra_args) do
@@ -131,4 +128,54 @@ M.maybeGemCmd = function(gem_name, extra_args)
   
   return cmd
 end
+
+M.is_package_in_yarn = function(package_name)
+  local package_json_path = vim.fn.getcwd() .. "/package.json"
+  if vim.fn.filereadable(package_json_path) == 0 then
+    print("package.json not found")
+    return false
+  end
+
+  -- Read and parse package.json
+  local package_json_content = vim.fn.readfile(package_json_path)
+  local success, parsed = pcall(vim.fn.json_decode, table.concat(package_json_content, "\n"))
+  if not success then
+    print("Error parsing package.json")
+    return false
+  end
+
+  -- Check if package is in dependencies or devDependencies
+  return (parsed.dependencies and parsed.dependencies[package_name]) or
+         (parsed.devDependencies and parsed.devDependencies[package_name])
+end
+
+M.maybe_yarn_cmd = function(package_name, extra_args)
+  local package_cmd_override = {
+    -- Add overrides as needed
+    -- ["some-package"] = "some-command",
+  }
+  
+  local cmd_name = package_cmd_override[package_name] or package_name
+  local cmd
+  
+  if M.is_package_in_yarn(package_name) then
+    cmd = { vim.fn.exepath("yarn"), "run", cmd_name }
+  else
+    local system_cmd = vim.fn.exepath(cmd_name)
+    if system_cmd ~= "" then
+      cmd = { system_cmd }
+    else
+      cmd = { vim.fn.exepath("npx"), cmd_name }
+    end
+  end
+  
+  if extra_args then
+    for _, arg in ipairs(extra_args) do
+      table.insert(cmd, arg)
+    end
+  end
+  
+  return cmd
+end
+
 return M

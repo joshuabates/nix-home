@@ -33,6 +33,8 @@
     vscode-langservers-extracted
     stylelint-lsp
     rubyPackages.solargraph
+    lua-language-server
+    nixd
     # rubyPackages.standard (doesnt exist)
     # cssmodules-language-server (doesnt exist)
     
