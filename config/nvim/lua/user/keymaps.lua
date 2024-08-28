@@ -8,6 +8,22 @@
 -- zoom/focus
 -- quick terminal
 -- find file?
+-- TODO: Settle on prefix(es) and groupings for search/find/lookup
+-- leader f - first there are file find operations by name
+-- leader s? or just part of f? - then file find ops by content (search)
+--
+-- g then there are operations based on a word, file or context
+-- find references for this symbol
+-- grep for this word
+-- doc for this word
+--
+-- should there just be a single prefix key for all context related operations
+-- surround
+-- move
+-- transformations (uppercase, etc..)
+-- .... the g key already does some of this, but it's never become part of my muscle memory...
+-- using leader-g wou
+
 local keymap = vim.keymap.set
 local opts = { silent = true }
 
@@ -103,12 +119,9 @@ keymap("n", "<leader>K", ":w<CR>:cP<CR>", opts)
 
 -- Git
 keymap("n", "<leader>gg", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", opts)
-
 keymap("n", "<leader>x", "<cmd>lua CloseQuickFixOrBuffer()<CR>", opts)
-
 keymap("n", "<leader>z", "<cmd>ZenMode<cr>", opts)
 
--- keymap("n", "gR", "<cmd>Trouble lsp_references<cr>", opts)
 
 -- Trouble / Quicklist / Diagnostics
 
@@ -155,277 +168,94 @@ if not vim.g.vscode then
 		opts
 	)
 
-	-- local mappings = {
-	--   x = {
-	--     name = "Trouble",
-	--
-	--     -- x = { "<cmd>Trouble<cr>", "Trouble" },
-	--     -- w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workplace" },
-	--     -- f = { "<cmd>Trouble document_diagnostics<cr>", "File" },
-	--     -- l = { "<cmd>Trouble loclist<cr>", "Locations" },
-	--     -- q = { "<cmd>Trouble quickfix<cr>", "Quickfix" }
-	--     -- `:w
-	--     -- `
-	-- -- builtin.quickfixhistory	Lists all quickfix lists in your history and open them with builtin.quickfix
-	--     --builtin.lsp_workspace_symbols	Lists LSP document symbols in the current workspace
-	-- -- builtin.lsp_dynamic_workspace_symbols	Dynamically Lists LSP for all workspace symbols
-	--   }
-	-- }
-	-- wk.register(mappings, { prefix = "<leader>" })
-
-	-- -- jump to the next item, skipping the groups
-	-- keymap("n", "<leader>j", function()
-	--   require("trouble").next({skip_groups = true, jump = true});
-	-- end)
-	--
-	-- -- jump to the prev item, skipping the groups
-	-- keymap("n", "<leader>k", function()
-	--   require("trouble").previous({skip_groups = true, jump = true});
-	-- end)
-
-	-- -- jump to the next group
-	-- keymap("n", "<leader>J", function()
-	--   require("trouble").next({skip_groups = false, jump = true});
-	-- end)
-	--
-	-- -- jump to the prev group
-	-- keymap("n", "<leader>K", function()
-	--   require("trouble").previous({skip_groups = false, jump = true});
-	-- end)
-
-	wk.register({
-		g = {
-			name = "Go",
-
-			-- % - cycle results
-			-- b,c comment toggl
-			-- x open w/ system app
-			-- ' marks
-			e = "End of prev word",
-			f = "File",
-			g = "First line",
-			i = "Last insert",
-			p = "Last paste",
-			v = "Last selection",
-			u = "Lowercase",
-			U = "Uppercase",
-
-			r = "References",
-			d = "Definition",
-			D = "Decleration",
-			I = "Implementation",
-			h = "Help doc",
-
-			x = "Diagnostics",
-
-			-- todo
-
-			-- make a g1, g2, g3, etcc for window navigation?
-		},
-	})
-	wk.register({
-		["<leader>\\"] = {
-			name = "Terminals",
-
-			r = { "<cmd>lua _RAILS_CONSOLE_TOGGLE()<CR>", "Rails Console (Float)" },
-			a = { "<cmd>lua _START_APP_TOGGLE()<CR>", "Start App" },
-			g = { "<cmd>lua _LAYGIT_TOGGLE()<CR>", "Lazygit" },
-			t = { "<cmd>lua _TOGGLE_TERMINAL_DIR()<CR>", "Toggle Float" },
-
-			c = { "<cmd>lua _TERMINAL_EOD()<CR>", "Continue" },
-			x = { "<cmd>lua _TERMINAL_EOD()<CR>", "Kill" },
-
-			p = { "<cmd>ToggleTermSendCurrentLine<CR>", "Paste Current Line" },
-			v = { "<cmd>ToggleTermSendVisualSelection<CR>", "Paste Visual Selection" },
-			-- p = "Rails REPL",
-			-- TODO: Test
-		},
-		["<leader>."] = {
-			name = "Edittor something...",
-		},
-		["<leader>,"] = {
-			name = "Edit or something...",
-		},
-	})
-
-	-- TODO: Settle on prefix(es) and groupings for search/find/lookup
-	-- leader f - first there are file find operations by name
-	-- leader s? or just part of f? - then file find ops by content (search)
-	--
-	-- g then there are operations based on a word, file or context
-	-- find references for this symbol
-	-- grep for this word
-	-- doc for this word
-	--
-	-- should there just be a single prefix key for all context related operations
-	-- surround
-	-- move
-	-- transformations (uppercase, etc..)
-	-- .... the g key already does some of this, but it's never become part of my muscle memory...
-	-- using leader-g wou
 	keymap("n", "<leader>f<space>", "<cmd>Telescope find_files<cr>", opts)
 
-	-- keymap("qf", "dd", "<Tab>zN", opts)
-	wk.register({
-		-- TODO: customize list for text objects
-		-- v = {
-		--   name = "Visual"
-		-- },
-		-- y = {
-		--   name = "Yank"
-		-- },
-		-- c = {
-		--   name = "Change"
-		-- },
-		-- d = {
-		--   name = "Delete"
-		-- },
+	wk.add({
+    { "g", group = "Go" },
+    { "gD", desc = "Decleration" },
+    { "gI", desc = "Implementation" },
+    { "gU", desc = "Uppercase" },
+    { "gd", desc = "Definition" },
+    { "ge", desc = "End of prev word" },
+    { "gf", desc = "File" },
+    { "gg", desc = "First line" },
+    { "gh", desc = "Help doc" },
+    { "gi", desc = "Last insert" },
+    { "gp", desc = "Last paste" },
+    { "gr", desc = "References" },
+    { "gu", desc = "Lowercase" },
+    { "gv", desc = "Last selection" },
+    { "gx", desc = "Diagnostics" },
 
-		f = {
-			name = "Find",
+    { "<leader>w", group = "Window" },
+    { "<leader>ww", desc = "Save File" },
+    { "<leader>we",
+      function()
+        require("neo-tree.command").execute({ toggle = true })
+      end,
+      desc = "Toggle Explorer"
+    },
+    { "<leader>\\", group = "Terminals" },
+    { "<leader>\\a", "<cmd>lua _START_APP_TOGGLE()<CR>", desc = "Start App" },
+    { "<leader>\\c", "<cmd>lua _TERMINAL_EOD()<CR>", desc = "Continue" },
+    { "<leader>\\g", "<cmd>lua _LAYGIT_TOGGLE()<CR>", desc = "Lazygit" },
+    { "<leader>\\p", "<cmd>ToggleTermSendCurrentLine<CR>", desc = "Paste Current Line" },
+    { "<leader>\\r", "<cmd>lua _RAILS_CONSOLE_TOGGLE()<CR>", desc = "Rails Console (Float)" },
+    { "<leader>\\t", "<cmd>lua _TOGGLE_TERMINAL_DIR()<CR>", desc = "Toggle Float" },
+    { "<leader>\\v", "<cmd>ToggleTermSendVisualSelection<CR>", desc = "Paste Visual Selection" },
+    { "<leader>\\x", "<cmd>lua _TERMINAL_EOD()<CR>", desc = "Kill" },
 
-			-- keymap("n", "<leader>fc", "<cmd>Telescope termfinder find<cr>", opts)
-
-			f = { "<cmd>Telescope find_files<cr>", "File" },
-			d = {
-				"<cmd>lua require('telescope.builtin').find_files({ previewer = false, find_command = { 'fd', '--type', 'd' }, prompt_title = '"
-					.. find_in_dir_prompt
-					.. "'})<cr>",
-				"In Dir (<CR> find_file in DIR, <C-s> grep)",
-			},
-			m = { "<cmd>Telescope lsp_document_symbols<cr>", "Method" },
-			b = {
-				"<cmd>lua require('telescope.builtin').buffers({ sort_mru = true, ignore_current_buffer = true })<cr>",
-				"Buffer",
-			},
-			w = { "<cmd>lua require('telescope.builtin').grep_string({search = vim.fn.expand('<cword>')})<cr>", "Word" },
-			s = { "<cmd>lua require('telescope.builtin').live_grep()<cr>", "Search" },
-			h = { "<cmd>lua require('telescope.builtin').search_history()<cr>", "Search History" },
-			q = { "<cmd>lua require('telescope.builtin').quickfixhistory()<cr>", "Quickfix History" },
-			Q = { "<cmd>lua require('telescope.builtin').quickfix()<cr>", "Quickfix" },
-			l = { "<cmd>Telescope resume<cr>", "Last Search" },
-			-- ['\\'] = { "<cmd>Telescope termfinder find<cr>", "Terminal" }, -- TODO: this doesn't list any of my custom terms (which are the only ones I care about here)
-			e = { "<cmd>lua vim.lsp.buf.references()<CR>", "Reference" },
-			g = {
-				name = "Git",
-				b = { "<cmd>lua require('telescope.builtin').git_branches()<cr>", "Branches" },
-				c = { "<cmd>lua require('telescope.builtin').git_commits()<cr>", "Commits" },
-				f = { "<cmd>lua require('telescope.builtin').git_bcommits()<cr>", "Buffer Commits" },
-				s = { "<cmd>lua require('telescope.builtin').git_stash()<cr>", "Stashes" },
-			},
-			r = {
-				name = "Rails",
-				m = { "<cmd>Telescope find_files cwd=app/models<Cr>", "Model" },
-				c = { "<cmd>Telescope find_files cwd=app/controllers<Cr>", "Controller" },
-				s = { "<cmd>Telescope find_files cwd=spec<Cr>", "Spec" },
-			},
-		},
-
-		g = {
-			name = "Git",
-
-			-- TODO: figure out how to add a hover to show full commit message and enter to view commit diff
-			-- b = { "<cmd>lua require('agitator').git_blame({sidebar_width=40})<CR>", "Blame"},
-			-- b = { '<cmd>lua require("user.blame").open()<CR>', 'Blame' },
-			b = { "<cmd>Git blame<CR>", "Blame" },
-			-- vim.keymap.set('n', '<leader>c', ":lua require('plugins.telescope').my_git_commits()<CR>", {noremap = true, silent = true})
-			-- vim.keymap.set('n', '<leader>g', ":lua require('plugins.telescope').my_git_status()<CR>", {noremap = true, silent = true})
-			-- vim.keymap.set('n', '<leader>b', ":lua require('plugins.telescope').my_git_bcommits()<CR>", {noremap = true, silent = true})
-			-- b = { "<cmd>Git blame<CR>", "Blame"},
-			v = { ":lua ShowCommitAtLine()<cr>", "View commit" },
-			t = { "<cmd>lua require('agitator').git_time_machine()<CR>", "Time Machine" },
-			g = "Lazygit",
-			y = "Copy github link",
-
-			h = { "<Cmd>DiffviewFileHistory %.<CR>", "History" },
-
-			-- b = { "<Cmd>VGit buffer_blame_preview<CR>", "Blame" },
-			-- d = { "<Cmd>VGit buffer_diff_preview<CR>", "Diff" },
-			-- h = { "<Cmd>VGit buffer_history_preview<CR>", "History" },
-
-			-- nnoremap('<leader>gs', '<Cmd>VGit buffer_stage<CR>')
-			-- nnoremap('<leader>gr', '<Cmd>VGit buffer_reset<CR>')
-			-- nnoremap('<leader>gp','<Cmd>VGit buffer_hunk_preview<CR>')
-			-- nnoremap('<leader>gu','<Cmd>VGit buffer_reset<CR>')
-			-- nnoremap('<leader>gg','<Cmd>VGit buffer_gutter_blame_preview<CR>')
-			-- nnoremap('<leader>gl','<Cmd>VGit project_hunks_preview<CR>')
-			-- nnoremap('<leader>gd','<Cmd>VGit project_diff_preview<CR>')
-			-- nnoremap('<leader>gq','<Cmd>VGit project_hunks_qf<CR>')
-			-- nnoremap('<leader>gx','<Cmd>VGit toggle_diff_preference<CR>')
-		},
-		h = {
-			name = "Help / Docs",
-
-			c = { "<cmd>lua require('telescope.builtin').commands()<cr>", "Commands" },
-			h = { "<cmd>lua require('telescope.builtin').help_tags()<cr>", "Help" },
-		},
-		q = {
-			name = "Quickfix",
-
-			o = { "<cmd>copen<CR>", "Open" },
-			r = { "<cmd>zN<CR>", "Remove tagged" },
-			s = { "<cmd>zn<CR>", "Select tagged" },
-			y = { "<cmd>lua _G.add_current_line_to_qf()<CR>", "Add" },
-
-			["<"] = { "<cmd><<CR>", "Last QF" },
-			[">"] = { "<cmd>><CR>", "Next QF" },
-		},
-		r = {
-			--- Testing
-			name = "Run",
-			n = { "<cmd>TestNearest<cr>", "Nearest" },
-			N = { "<cmd>TestNearest<cr>", "Nearest (background)" },
-			s = { "<cmd>TestFile<cr>", "File" },
-			S = { "<cmd>TestFile<cr>", "File (background)" },
-			l = { "<cmd>TestLast<cr>", "Last" },
-			L = { "<cmd>TestLast<cr>", "Last (background)" },
-			g = { "<cmd>TestVisit<cr>", "Goto Last Spec" },
-			-- a = { "<cmd>Test", "Attach"},
-			-- d = { "<cmd>Test", "Debug"},
-			-- TestSuite - run the whole test suite
-			-- TestEdit - edit tests for the current file
-			-- TestVisit - open the last run test in the current buffer
-			-- s = {"Stop"},
-			-- o = {"Overview"},
-			-- p = {"Print"}
-			-- keymap("n", "<leader>rf", function()
-			--   require("neotest").run.run(vim.fn.expand("%"))
-			-- end) -- run file
-			-- keymap("n", "<leader>rn", function()
-			--   require("neotest").run.run()
-			-- end) -- run nearest test
-			-- keymap("n", "<leader>ra", function()
-			--   require("neotest").run.attach()
-			-- end)
-			-- keymap("n", "<leader>rd", function()
-			--   require("neotest").run.run({ strategy = "dap" })
-			-- end) -- debug nearest test
-			-- keymap("n", "<leader>rl", function()
-			--   require("neotest").run.run_last()
-			-- end) -- run last test
-			-- keymap("n", "<leader>rs", function()
-			--   require("neotest").run.stop()
-			-- end)
-			-- keymap("n", "<leader>ro", function()
-			--   require("neotest").summary.toggle()
-			-- end)
-			-- keymap("n", "<leader>rp", function()
-			--   require("neotest").output.open({ enter = true })
-			-- end)
-		},
-		s = {
-			name = "?",
-
-			-- w = "Current Word",
-			-- g = "Grep"
-		},
-		v = {
-			name = "Vim",
-
-			c = { "<cmd>e $MYVIMRC<CR>", "Open Config" },
-			l = { "<cmd>lazy<CR>", "Lazy" },
-			r = { "<cmd>Reload<CR>", "Reload" },
-			R = { "<cmd>Restart<CR>", "Restart" },
-		},
-	}, { prefix = "<leader>" })
+    { "<leader>f", group = "Find" },
+    { "<leader>fQ", "<cmd>lua require('telescope.builtin').quickfix()<cr>", desc = "Quickfix" },
+    { "<leader>fb", "<cmd>lua require('telescope.builtin').buffers({ sort_mru = true, ignore_current_buffer = true })<cr>", desc = "Buffer" },
+    { "<leader>fd", "<cmd>lua require('telescope.builtin').find_files({ previewer = false, find_command = { 'fd', '--type', 'd' }, prompt_title = 'Find file/grep (<c-s>) in directory'})<cr>", desc = "In Dir (<CR> find_file in DIR, <C-s> grep)" },
+    { "<leader>fe", "<cmd>lua vim.lsp.buf.references()<CR>", desc = "Reference" },
+    { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "File" },
+    { "<leader>fg", group = "Git" },
+    { "<leader>fgb", "<cmd>lua require('telescope.builtin').git_branches()<cr>", desc = "Branches" },
+    { "<leader>fgc", "<cmd>lua require('telescope.builtin').git_commits()<cr>", desc = "Commits" },
+    { "<leader>fgf", "<cmd>lua require('telescope.builtin').git_bcommits()<cr>", desc = "Buffer Commits" },
+    { "<leader>fgs", "<cmd>lua require('telescope.builtin').git_stash()<cr>", desc = "Stashes" },
+    { "<leader>fh", "<cmd>lua require('telescope.builtin').search_history()<cr>", desc = "Search History" },
+    { "<leader>fl", "<cmd>Telescope resume<cr>", desc = "Last Search" },
+    { "<leader>fm", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Method" },
+    { "<leader>fq", "<cmd>lua require('telescope.builtin').quickfixhistory()<cr>", desc = "Quickfix History" },
+    { "<leader>fr", group = "Rails" },
+    { "<leader>frc", "<cmd>Telescope find_files cwd=app/controllers<Cr>", desc = "Controller" },
+    { "<leader>frm", "<cmd>Telescope find_files cwd=app/models<Cr>", desc = "Model" },
+    { "<leader>frs", "<cmd>Telescope find_files cwd=spec<Cr>", desc = "Spec" },
+    { "<leader>fs", "<cmd>lua require('telescope.builtin').live_grep()<cr>", desc = "Search" },
+    { "<leader>fw", "<cmd>lua require('telescope.builtin').grep_string({search = vim.fn.expand('<cword>')})<cr>", desc = "Word" },
+    { "<leader>g", group = "Git" },
+    { "<leader>gb", "<cmd>Git blame<CR>", desc = "Blame" },
+    { "<leader>gg", desc = "Lazygit" },
+    { "<leader>gh", "<Cmd>DiffviewFileHistory %.<CR>", desc = "History" },
+    { "<leader>gt", "<cmd>lua require('agitator').git_time_machine()<CR>", desc = "Time Machine" },
+    { "<leader>gv", ":lua ShowCommitAtLine()<cr>", desc = "View commit" },
+    { "<leader>gy", desc = "Copy github link" },
+    { "<leader>h", group = "Help / Docs" },
+    { "<leader>hc", "<cmd>lua require('telescope.builtin').commands()<cr>", desc = "Commands" },
+    { "<leader>hh", "<cmd>lua require('telescope.builtin').help_tags()<cr>", desc = "Help" },
+    { "<leader>q", group = "Quickfix" },
+    { "<leader>q<", "<cmd><<CR>", desc = "Last QF" },
+    { "<leader>q>", "<cmd>><CR>", desc = "Next QF" },
+    { "<leader>qo", "<cmd>copen<CR>", desc = "Open" },
+    { "<leader>qr", "<cmd>zN<CR>", desc = "Remove tagged" },
+    { "<leader>qs", "<cmd>zn<CR>", desc = "Select tagged" },
+    { "<leader>qy", "<cmd>lua _G.add_current_line_to_qf()<CR>", desc = "Add" },
+    { "<leader>r", group = "Run" },
+    { "<leader>rL", "<cmd>TestLast<cr>", desc = "Last (background)" },
+    { "<leader>rN", "<cmd>TestNearest<cr>", desc = "Nearest (background)" },
+    { "<leader>rS", "<cmd>TestFile<cr>", desc = "File (background)" },
+    { "<leader>rg", "<cmd>TestVisit<cr>", desc = "Goto Last Spec" },
+    { "<leader>rl", "<cmd>TestLast<cr>", desc = "Last" },
+    { "<leader>rn", "<cmd>TestNearest<cr>", desc = "Nearest" },
+    { "<leader>rs", "<cmd>TestFile<cr>", desc = "File" },
+    { "<leader>s", group = "?" },
+    { "<leader>v", group = "Vim" },
+    { "<leader>vR", "<cmd>Restart<CR>", desc = "Restart" },
+    { "<leader>vc", "<cmd>e $MYVIMRC<CR>", desc = "Open Config" },
+    { "<leader>vl", "<cmd>lazy<CR>", desc = "Lazy" },
+    { "<leader>vr", "<cmd>Reload<CR>", desc = "Reload" },
+	})
 end

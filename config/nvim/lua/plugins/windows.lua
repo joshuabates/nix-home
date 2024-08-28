@@ -2,19 +2,6 @@ if vim.g.vscode then
 	return
 end
 
-local wk = require("which-key")
-
-wk.register({
-	["<leader>w"] = {
-		w = "Save File",
-		e = {
-			function()
-				require("neo-tree.command").execute({ toggle = true })
-			end,
-			"Toggle Explorer",
-		},
-	},
-})
 
 return {
 	{

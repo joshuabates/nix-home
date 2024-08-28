@@ -132,7 +132,7 @@ end
 M.is_package_in_yarn = function(package_name)
   local package_json_path = vim.fn.getcwd() .. "/package.json"
   if vim.fn.filereadable(package_json_path) == 0 then
-    print("package.json not found")
+    -- print("package.json not found")
     return false
   end
 
