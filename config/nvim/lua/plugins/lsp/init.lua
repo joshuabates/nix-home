@@ -22,7 +22,7 @@ local function setup_lsp_keymaps(bufnr)
 	keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 	keymap(bufnr, "n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 	keymap(bufnr, "n", "gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-	keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+	keymap(bufnr, "n", "gr", "<cmd>lua require('telescope.builtin').lsp_references({ show_line = false })<CR>", opts)
 	keymap(bufnr, "n", "gx", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 
 	keymap(bufnr, "n", "<leader>ld", "<cmd>lua _G.toggle_diagnostics()<CR>", opts)
@@ -50,7 +50,7 @@ return {
 				on_attach = function(client, bufnr)
 					client.server_capabilities.documentFormattingProvider = false
 					client.server_capabilities.documentRangeFormattingProvider = false
-          vim.lsp.inlay_hint.enable(bufnr, true)
+          vim.lsp.inlay_hint.enable(true)
 				end,
 				settings = {
 					separate_diagnostic_server = true,
@@ -109,6 +109,7 @@ return {
         },
         stylelint_lsp = {
           cmd = utils.maybe_yarn_cmd("stylelint-lsp", { "--stdio" }),
+          filetypes = { "css", "scss", "less", "sass" },
         },
         cssmodules_ls = {
           cmd = utils.maybe_yarn_cmd("cssmodules-language-server"),
