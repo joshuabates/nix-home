@@ -8,7 +8,7 @@
     
     extraConfig = {
       core = {
-        editor = "nvim";
+        editor = "nvim --startuptime nvim-profile.log";
         pager = "delta --syntax-theme='gruvbox-dark'";
       };
       merge = {

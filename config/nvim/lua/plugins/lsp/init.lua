@@ -298,29 +298,37 @@ return {
 
 	{
 		"stevearc/conform.nvim",
-		ft = { "lua", "vue", "typescript", "typescriptreact", "javascript", "json", "jsonc", "ruby" },
+		ft = { "lua", "vue", "typescript", "typescriptreact", "javascript", "javascriptreact", "json", "jsonc", "ruby" },
 		opts = {
+      -- formatters = {
+      --   eslint_d = {
+      --     command = utils.maybe_yarn_cmd("eslint_d"),
+      --   },
+      --   eslint = {
+      --     command = utils.maybe_yarn_cmd("eslint_d"),
+      --   },
+      --   standardrb = {
+      --     command = utils.maybe_gem_cmd("standard"),
+      --   },
+      -- },
 			formatters_by_ft = {
 				-- lua = { "stylua" },
 				vue = { "eslint_d" },
-				typescript = { "prettier" },
-				typescriptreact = { "prettier" },
+				typescript = { "eslint_d", "prettier", stop_after_first = true },
+				typescriptreact = { "eslint_d", "prettier", stop_after_first = true },
 				javascript = { "eslint_d" },
 				javascriptreact = { "eslint_d" },
-				json = { "prettier" },
-				jsonc = { "prettier" },
+				-- json = { "prettier" },
+				-- jsonc = { "prettier" },
 				ruby = { "standardrb" },
 			},
+      format_on_save = {
+        timeout_ms = 5000,
+        lsp_format = "fallback",
+      },
 		},
 		config = function(_, opts)
 			require("conform").setup(opts)
-
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				pattern = "*",
-				callback = function(args)
-					require("conform").format({ bufnr = args.buf })
-				end,
-			})
 		end,
 	},
 }

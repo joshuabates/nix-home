@@ -45,7 +45,7 @@
     in
     {
       jbatesm3-mbp16 = mkDarwinWorkstation "joshuabates" "jbatesm3-mbp16" "aarch64-darwin";
-      #studio = mkDarwinWorkstation "joshua" "studio" "aarch64-darwin";
+      studio = mkDarwinWorkstation "joshua" "studio" "aarch64-darwin";
     };
 
     nixosConfigurations = 

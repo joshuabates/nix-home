@@ -1,7 +1,8 @@
 { pkgs, config, ... }: {
 
   imports = [ ./programs/git.nix ./programs/fish.nix ./programs/kitty ];
-  home.username = "joshuabates";
+  home.username = "joshua";
+  # home.username = "joshuabates";
   # builtins.head (builtins.attrNames config.users);
 
   home.packages = with pkgs; [
@@ -17,6 +18,7 @@
     fish
     delta
     neovim
+    fd
     gcc
     poetry
     nodejs
@@ -28,12 +30,16 @@
     lazygit
     awscli2
     aws-mfa
+    python3
+    python3Packages.pip
+    python3Packages.virtualenv
 
     nodePackages.typescript-language-server
     vscode-langservers-extracted
     stylelint-lsp
     rubyPackages.solargraph
     lua-language-server
+    stylua
     nixd
     # rubyPackages.standard (doesnt exist)
     # cssmodules-language-server (doesnt exist)
@@ -47,7 +53,6 @@
   home.file = {
     ".config/nvim" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Projects/nix-home/config/nvim";
-      # recursive = true;
     };
   };
 

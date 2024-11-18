@@ -2,14 +2,14 @@ require("user.options")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system({
-		"git",
-		"clone",
-		"--filter=blob:none",
-		"https://github.com/folke/lazy.nvim.git",
-		"--branch=stable", -- latest stable release
-		lazypath,
-	})
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -27,14 +27,14 @@ require("user.treesitter")
 require("user.ruby")
 
 if not vim.g.vscode then
-	require("user.cmp")
-	require("user.gitsigns")
-	require("user.lualine")
-	require("user.nvim-tree")
-	-- require("user.quickfix")
-	require("user.telescope")
-	require("user.testing")
-	require("user.toggleterm")
+  require("user.cmp")
+  require("user.gitsigns")
+  require("user.lualine")
+  require("user.nvim-tree")
+  -- require("user.quickfix")
+  require("user.telescope")
+  require("user.testing")
+  require("user.toggleterm")
 end
 
 -- TODO:
