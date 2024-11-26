@@ -11,5 +11,6 @@
     ./system.nix
     ./environment.nix
     ./homebrew.nix
+    ./dnsmasq.nix
   ];
 }

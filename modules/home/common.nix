@@ -1,8 +1,8 @@
 { pkgs, config, ... }: {
 
   imports = [ ./programs/git.nix ./programs/fish.nix ./programs/kitty ];
-  home.username = "joshua";
-  # home.username = "joshuabates";
+  # home.username = "joshua";
+  home.username = "joshuabates";
   # builtins.head (builtins.attrNames config.users);
 
   home.packages = with pkgs; [
@@ -20,6 +20,8 @@
     neovim
     fd
     gcc
+    nss
+    overmind
     poetry
     nodejs
     yarn
