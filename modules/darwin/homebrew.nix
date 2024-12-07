@@ -9,8 +9,8 @@
       # lockfiles = true;
     };
 
-    taps = ["puma/puma"];
-    brews = ["puma/puma/puma-dev"];
+    # taps = ["puma/puma"];
+    # brews = ["puma/puma/puma-dev"];
     casks = [ 
       "1password"
       "alfred"
