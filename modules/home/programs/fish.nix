@@ -26,11 +26,12 @@
     interactiveShellInit = ''
       set -g fish_greeting
       set -g fish_key_bindings fish_vi_key_bindings
-      fish_add_path "./node_modules"
+      set -e fish_user_paths
+      # fish_add_path "./node_modules"
       fish_add_path /usr/local/sbin
       fish_add_path /usr/local/share/npm/bin/
       fish_add_path /opt/homebrew/bin
-      fish_add_path "./bin"
+      # fish_add_path "./bin"
       
       set -x LC_CTYPE en_US.UTF-8
       set -x EDITOR "nvim"
