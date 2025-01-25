@@ -1,9 +1,6 @@
 { pkgs, config, ... }: {
 
-  imports = [ ./programs/git.nix ./programs/fish.nix ./programs/kitty ];
-  # home.username = "joshua";
-  home.username = "joshuabates";
-  # builtins.head (builtins.attrNames config.users);
+  imports = [ ./programs/git.nix ./programs/fish.nix ./programs/kitty .programs/caddy ];
 
   home.packages = with pkgs; [
     fira-code-nerdfont

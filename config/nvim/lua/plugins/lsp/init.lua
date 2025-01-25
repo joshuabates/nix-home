@@ -3,6 +3,7 @@ if vim.g.vscode then
 end
 
 local utils = require("user.utils")
+-- vim.lsp.set_log_level("debug")
 
 local function on_attach(on_attach)
   vim.api.nvim_create_autocmd("LspAttach", {
@@ -50,13 +51,14 @@ return {
         on_attach = function(client, bufnr)
           client.server_capabilities.documentFormattingProvider = false
           client.server_capabilities.documentRangeFormattingProvider = false
-          vim.lsp.inlay_hint.enable(true)
+          -- vim.lsp.inlay_hint.enable(true)
         end,
         settings = {
+          tsserver_max_memory = 8192,
           separate_diagnostic_server = true,
           code_lens = "off",
           tsserver_file_preferences = {
-            includeInlayParameterNameHints = "all",
+            -- includeInlayParameterNameHints = "all",
             includeCompletionsForModuleExports = true,
             quotePreference = "auto",
           },

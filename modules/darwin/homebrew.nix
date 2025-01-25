@@ -33,10 +33,12 @@
       # "spotify"
       # "transmission"
       "visual-studio-code"
+      "mitmproxy"
       # "brave-browser"
       # "wireshark"
       # "xld"
     ];
+
     masApps = {
       "Omnivore: Read-it-later" = 1564031042;
       "Shazam: Identify Songs" = 897118787;
