@@ -3,7 +3,7 @@ local ok, terms = pcall(require, "toggleterm.terminal")
 local utils = require("user.utils")
 
 if not status_ok then
-	return
+  return
 end
 
 -- TODO: seperate consoles for rails console, specs, etc...
@@ -18,172 +18,197 @@ end
 -- add normal mode   to kill/continue term
 
 function file_exists(name)
-	local f = io.open(name, "r")
-	if f ~= nil then
-		io.close(f)
-		return true
-	else
-		return false
-	end
+  local f = io.open(name, "r")
+  if f ~= nil then
+    io.close(f)
+    return true
+  else
+    return false
+  end
 end
 
-local shell = file_exists("/usr/local/bin/fish") and "/usr/local/bin/fish" or "/opt/homebrew/bin/fish"
+local function detect_shell()
+  local nix_fish = vim.fn.system({
+    "/bin/bash",
+    "-c",
+    "nix-shell -p fish --run 'which fish' 2>/dev/null"
+  }):gsub("%s+", "")
+
+  -- Check if the result is valid
+  -- if nix_fish and nix_fish ~= "" and vim.fn.filereadable(nix_fish) == 1 then
+  if nix_fish and nix_fish ~= "" then
+    return nix_fish
+  end
+
+  -- Fallback to system paths if nix-shell fails
+  local system_fish = vim.fn.exepath("fish")
+  if system_fish and system_fish ~= "" then
+    return system_fish
+  end
+
+  -- Default to bash if no valid fish binary is found
+  return "/bin/bash"
+end
+local shell = detect_shell()
 
 toggleterm.setup({
-	size = function(term)
-		if term.direction == "horizontal" then
-			return 15
-		elseif term.direction == "vertical" then
-			return vim.o.columns * 0.33
-		end
-	end,
-	open_mapping = [[<c-\>]],
-	auto_scroll = true,
-	hide_numbers = true,
-	shade_terminals = true,
-	shading_factor = 2,
-	start_in_insert = true,
-	insert_mappings = true,
-	persist_size = true,
-	direction = "float",
-	close_on_exit = true,
-	shell = shell,
-	float_opts = {
-		border = "double",
-		width = 200,
-		height = 200,
-		winblend = 10,
-	},
+  size = function(term)
+    if term.direction == "horizontal" then
+      return 15
+    elseif term.direction == "vertical" then
+      return vim.o.columns * 0.33
+    end
+  end,
+  open_mapping = [[<c-\>]],
+  auto_scroll = true,
+  hide_numbers = true,
+  shade_terminals = true,
+  shading_factor = 2,
+  start_in_insert = true,
+  insert_mappings = true,
+  persist_size = true,
+  direction = "float",
+  close_on_exit = false,
+  -- shell = detect_shell,
+  shell = "/usr/bin/bash",
+  float_opts = {
+    border = "double",
+    width = 200,
+    height = 200,
+    winblend = 10,
+  },
 })
 
 function no_normal(term)
-	pcall(function()
-		vim.api.nvim_buf_del_keymap(0, "t", "<esc>")
-	end)
+  pcall(function()
+    vim.api.nvim_buf_del_keymap(0, "t", "<esc>")
+  end)
 
-	pcall(function()
-		vim.api.nvim_buf_set_keymap(0, "t", "<esc><esc>", "<cmd>close<CR>", { silent = true, noremap = true })
-	end)
+  pcall(function()
+    vim.api.nvim_buf_set_keymap(0, "t", "<esc><esc>", "<cmd>close<CR>", { silent = true, noremap = true })
+  end)
 end
 
 function watch_yarn(t, _, data, _)
-	for k, line in pairs(data) do
-		if line:match("ERROR") then
-			str = line:gsub("%[%dm", "")
-			-- [1m[31mERROR[39m[22m in [1m./ui/index.js[39m[22m
+  for k, line in pairs(data) do
+    if line:match("ERROR") then
+      str = line:gsub("%[%dm", "")
+      -- [1m[31mERROR[39m[22m in [1m./ui/index.js[39m[22m
 
-			utils.errorlog(str, "Webpack ERROR")
-		else
-			-- utils.log(line)
-		end
-	end
-	-- ERROR in ./ui/components/changesets/Changeset.js
-	-- on_stdout = fun(t: Terminal, job: number, data: string[], name: string) -- callback for processing output on stdout
-	-- on_stderr = fun(t: Terminal, job: number, data: string[], name: string) -- callback for processing output on stderr
+      utils.errorlog(str, "Webpack ERROR")
+    else
+      -- utils.log(line)
+    end
+  end
+  -- ERROR in ./ui/components/changesets/Changeset.js
+  -- on_stdout = fun(t: Terminal, job: number, data: string[], name: string) -- callback for processing output on stdout
+  -- on_stderr = fun(t: Terminal, job: number, data: string[], name: string) -- callback for processing output on stderr
 end
 
 local Terminal = terms.Terminal
 local lazygit = Terminal:new({
-	cmd = "lazygit",
-	dir = "git_dir",
-	direction = "float",
-	float_opts = {
-		border = "double",
-	},
-	-- function to run on opening the terminal
-	on_open = function(term)
-		no_normal()
-		vim.cmd("startinsert!")
-		vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
-		vim.api.nvim_buf_set_keymap(term.bufnr, "t", "q", "<cmd>close<CR>", { noremap = true, silent = true })
+  cmd = "lazygit",
+  -- dir = "git_dir",
+  direction = "float",
+  float_opts = {
+    border = "double",
+  },
+  -- function to run on opening the terminal
+  on_open = function(term)
+    no_normal()
+    vim.cmd("startinsert!")
+    vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(term.bufnr, "t", "q", "<cmd>close<CR>", { noremap = true, silent = true })
 
-		pcall(vim.api.nvim_buf_del_keymap, term.bufnr, "i", "<c-h>")
-		pcall(vim.api.nvim_buf_del_keymap, term.bufnr, "i", "<c-j>")
-		pcall(vim.api.nvim_buf_del_keymap, term.bufnr, "i", "<c-k>")
-		pcall(vim.api.nvim_buf_del_keymap, term.bufnr, "i", "<c-l>")
+    pcall(vim.api.nvim_buf_del_keymap, term.bufnr, "i", "<c-h>")
+    pcall(vim.api.nvim_buf_del_keymap, term.bufnr, "i", "<c-j>")
+    pcall(vim.api.nvim_buf_del_keymap, term.bufnr, "i", "<c-k>")
+    pcall(vim.api.nvim_buf_del_keymap, term.bufnr, "i", "<c-l>")
 
-		pcall(vim.api.nvim_buf_del_keymap, term.bufnr, "t", "<c-h>")
-		pcall(vim.api.nvim_buf_del_keymap, term.bufnr, "t", "<c-j>")
-		pcall(vim.api.nvim_buf_del_keymap, term.bufnr, "t", "<c-k>")
-		pcall(vim.api.nvim_buf_del_keymap, term.bufnr, "t", "<c-l>")
+    pcall(vim.api.nvim_buf_del_keymap, term.bufnr, "t", "<c-h>")
+    pcall(vim.api.nvim_buf_del_keymap, term.bufnr, "t", "<c-j>")
+    pcall(vim.api.nvim_buf_del_keymap, term.bufnr, "t", "<c-k>")
+    pcall(vim.api.nvim_buf_del_keymap, term.bufnr, "t", "<c-l>")
 
-		vim.api.nvim_buf_set_keymap(term.bufnr, "i", "<c-j>", "<Right>", { noremap = true, silent = true })
-		vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<c-j>", "<Right>", { noremap = true, silent = true })
-		vim.api.nvim_buf_set_keymap(term.bufnr, "i", "<c-k>", "<Left>", { noremap = true, silent = true })
-		vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<c-j>", "<Right>", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(term.bufnr, "i", "<c-j>", "<Right>", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<c-j>", "<Right>", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(term.bufnr, "i", "<c-k>", "<Left>", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<c-j>", "<Right>", { noremap = true, silent = true })
 
-		vim.api.nvim_buf_set_keymap(term.bufnr, "i", "<c-h>", "[", { noremap = true, silent = true })
-		vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<c-h>", "[", { noremap = true, silent = true })
-		vim.api.nvim_buf_set_keymap(term.bufnr, "i", "<c-h>", "[", { noremap = true, silent = true })
-		vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<c-h>", "[", { noremap = true, silent = true })
-	end,
-	-- function to run on closing the terminal
-	on_close = function(term)
-		vim.cmd("startinsert!")
-	end,
+    vim.api.nvim_buf_set_keymap(term.bufnr, "i", "<c-h>", "[", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<c-h>", "[", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(term.bufnr, "i", "<c-h>", "[", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<c-h>", "[", { noremap = true, silent = true })
+  end,
+  -- function to run on closing the terminal
+  on_close = function(term)
+    vim.cmd("startinsert!")
+  end,
 })
 
 local rails_console = Terminal:new({ cmd = "rails console", direction = "vertical" })
+-- TODO: This is really project specific. Need to make it more generic.
 local start = Terminal:new({
-	cmd = "yarn start",
-	hidden = true,
-	direction = "float",
-	on_stdout = watch_yarn,
-	on_open = function(term)
-		vim.api.nvim_buf_set_keymap(term.bufnr, "n", "<esc><esc>", "<cmd>close<CR>", { noremap = true, silent = true })
-		vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<esc><esc>", "<cmd>close<CR>", { noremap = true, silent = true })
-		vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
-		vim.api.nvim_buf_set_keymap(term.bufnr, "t", "q", "<cmd>close<CR>", { noremap = true, silent = true })
-	end,
+  cmd = "overseer start",
+  hidden = true,
+  direction = "float",
+  -- TODO: make this work for overseer.
+  -- on_stdout = watch_yarn,
+  on_open = function(term)
+    vim.api.nvim_buf_set_keymap(term.bufnr, "n", "<esc><esc>", "<cmd>close<CR>", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<esc><esc>", "<cmd>close<CR>", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(term.bufnr, "t", "q", "<cmd>close<CR>", { noremap = true, silent = true })
+  end,
 })
 
 function _LAZYGIT_TOGGLE()
-	lazygit:toggle()
-	lazygit.display_name = "Git"
+  lazygit:toggle()
+  lazygit.display_name = "Git"
 end
 
 function _RAILS_CONSOLE_TOGGLE()
-	rails_console:toggle()
+  rails_console:toggle()
 end
 
 function _TOGGLE_TERMINAL_DIR()
-	local term = terms.get(terms.get_toggled_id())
+  local term = terms.get(terms.get_toggled_id())
 
-	if not term then
-		return
-	end
+  if not term then
+    return
+  end
 
-	local is_float = term:is_float()
+  local is_float = term:is_float()
 
-	term:close()
+  term:close()
 
-	if is_float then
-		term:change_direction("vertical")
-	else
-		term:change_direction("float")
-	end
+  if is_float then
+    term:change_direction("vertical")
+  else
+    term:change_direction("float")
+  end
 
-	term:open()
+  term:open()
 end
 
 function _START_APP_TOGGLE()
-	start:toggle()
+  start:toggle()
 end
 
 function _TERMINAL_EOD()
-	toggleterm.exec_command("cmd='' go_back=1")
+  toggleterm.exec_command("cmd='' go_back=1")
 end
 
 function _GIT_SHOW(sha)
-	local term = Terminal:new({
-		cmd = "git show " .. sha,
-		hidden = true,
-		close_on_exit = false,
-		direction = "float",
-		go_back = 0,
-		start_in_insert = true,
-	})
-	term:open()
+  local term = Terminal:new({
+    cmd = "git show " .. sha,
+    hidden = true,
+    close_on_exit = false,
+    direction = "float",
+    go_back = 0,
+    start_in_insert = true,
+  })
+  term:open()
 end
 
 -- if you only want these mappings for toggle term use term://*toggleterm#* instead

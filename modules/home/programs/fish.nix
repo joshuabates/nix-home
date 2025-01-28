@@ -11,7 +11,7 @@
     ];
 
     sessionVariables = {
-      SHELL = "fish";
+      # SHELL = "fish";
       TERMINAL = "kitty";
     };
   };

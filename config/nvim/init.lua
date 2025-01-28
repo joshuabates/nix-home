@@ -17,7 +17,6 @@ require("lazy").setup("plugins")
 
 require("plugins")
 
-require("user.keymaps")
 require("user.colorscheme")
 require("user.cmp")
 require("user.comment")
@@ -33,10 +32,11 @@ if not vim.g.vscode then
   require("user.nvim-tree")
   -- require("user.quickfix")
   require("user.telescope")
-  require("user.testing")
   require("user.toggleterm")
+  require("user.testing")
 end
 
+require("user.keymaps")
 -- TODO:
 -- LEARN
 -- <leader>fe find_references
