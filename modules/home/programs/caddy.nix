@@ -19,7 +19,7 @@
       }
     '';
     config = {
-      email = "your-email@example.com"; # Used for Let's Encrypt notifications
+      email = "joshuabates@gmail.com"; # Used for Let's Encrypt notifications
     };
   };
 }

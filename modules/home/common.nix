@@ -1,6 +1,6 @@
 { pkgs, config, ... }: {
 
-  imports = [ ./programs/git.nix ./programs/fish.nix ./programs/kitty .programs/caddy ];
+  imports = [ ./programs/git.nix ./programs/fish.nix ./programs/kitty ./programs/caddy ];
 
   home.packages = with pkgs; [
     fira-code-nerdfont
