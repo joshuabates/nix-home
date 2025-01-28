@@ -2,9 +2,9 @@
 
   imports = [];
 
-  home.packages = with pkgs; [
-    caddy
-  ];
+  #home.packages = with pkgs; [
+  #  caddy
+  #];
 
   services.caddy = {
     enable = true;
