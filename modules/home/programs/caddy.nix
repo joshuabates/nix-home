@@ -1,11 +1,10 @@
 { pkgs, config, ... }: {
 
-  # imports = [];
-  # environment.systemPackages = [ imports.stable.caddy ];
+  imports = [];
 
-  #config.home.packages = with pkgs; [
-  #  caddy
-  #];
+  home.packages = with pkgs; [
+    caddy
+  ];
 
   services.caddy = {
     enable = true;
