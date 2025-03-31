@@ -21,10 +21,12 @@
         inherit system;
         modules = [
           ({ config, pkgs, ... }: {
+            users.knownUsers = [ username ];
             users.users.${username} = {
               name = username;
               home = "/Users/${username}";
               shell = pkgs.fish;
+              uid = 501;
             };
           })
           ./modules/common.nix

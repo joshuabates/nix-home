@@ -149,7 +149,7 @@ local lazygit = Terminal:new({
 local rails_console = Terminal:new({ cmd = "rails console", direction = "vertical" })
 -- TODO: This is really project specific. Need to make it more generic.
 local start = Terminal:new({
-  cmd = "overseer start",
+  cmd = "overmind start",
   hidden = true,
   direction = "float",
   -- TODO: make this work for overseer.

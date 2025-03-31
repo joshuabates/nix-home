@@ -32,6 +32,8 @@
     python3
     python3Packages.pip
     python3Packages.virtualenv
+    ffmpeg
+    yt-dlp
 
     nodePackages.typescript-language-server
     vscode-langservers-extracted

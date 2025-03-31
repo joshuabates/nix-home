@@ -12,6 +12,6 @@
     ./environment.nix
     ./homebrew.nix
     ./dnsmasq.nix
-    ./caddy.nix
+    # ./caddy.nix
   ];
 }

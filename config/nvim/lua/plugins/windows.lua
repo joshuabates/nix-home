@@ -64,6 +64,34 @@ return {
       })
     end,
   },
+  {
+    'stevearc/oil.nvim',
+    opts = {},
+    dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+    lazy = false,
+
+    config = function()
+      require('oil').setup {
+        default_file_explorer = false,
+        lsp_file_methods = {
+          enabled = true,
+          timeout_ms = 30000,
+          autosave_changes = true,
+        },
+        git = {
+          add = function(path)
+            return true
+          end,
+          mv = function(src_path, dest_path)
+            return true
+          end,
+          rm = function(path)
+            return true
+          end,
+        },
+      }
+    end
+  },
   { 'akinsho/toggleterm.nvim', version = "*", config = true },
   "knubie/vim-kitty-navigator",
   -- "kevinhwang91/nvim-bqf",
