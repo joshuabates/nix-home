@@ -23,11 +23,11 @@
       };
     };
   };
-  security.pam.enableSudoTouchIdAuth = true;
-  services.nix-daemon.enable = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
+  # services.nix-daemon.enable = true;
 
   # fonts.fontconfig.enable = true;
   
   # backwards compat; don't change?
-  system.stateVersion = 4;
+  system.stateVersion = 5;
 }

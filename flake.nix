@@ -11,10 +11,11 @@
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mac-app-util.url = "github:hraban/mac-app-util";
   };
 
-  outputs = { self, darwin, home-manager, nixpkgs }: {
-    # supportedSystems = ["aarch64-darwin"];
+  outputs = { self, darwin, home-manager, nixpkgs, mac-app-util}: {
+    supportedSystems = ["aarch64-darwin"];
     darwinConfigurations =
     let
       mkDarwinWorkstation = username: name: system: darwin.lib.darwinSystem {
@@ -26,9 +27,10 @@
               name = username;
               home = "/Users/${username}";
               shell = pkgs.fish;
-              uid = 501;
+              uid = 503;
             };
           })
+          mac-app-util.darwinModules.default
           ./modules/common.nix
           ./modules/darwin
           home-manager.darwinModules.home-manager
@@ -36,7 +38,9 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-
+              sharedModules = [
+                mac-app-util.homeManagerModules.default
+              ];
               users.${username}.imports = [ 
                 ./modules/home/common.nix
                 ./modules/home/darwin.nix
@@ -49,6 +53,7 @@
     {
       jbatesm3-mbp16 = mkDarwinWorkstation "joshuabates" "jbatesm3-mbp16" "aarch64-darwin";
       studio = mkDarwinWorkstation "joshua" "studio" "aarch64-darwin";
+      mb14 = mkDarwinWorkstation "joshua" "mb14" "aarch64-darwin";
     };
 
     nixosConfigurations = 

@@ -47,6 +47,7 @@
     # rubyPackages.standard (doesnt exist)
     # cssmodules-language-server (doesnt exist)
     
+    ast-grep
     silver-searcher
     ripgrep
     jq

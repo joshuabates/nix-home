@@ -3,7 +3,7 @@ def main():
 
 
 def handle_result(args, result, target_window_id, boss):
-    boss.active_tab.neighboring_window(args[1])
+    return boss.active_tab.current_layout.name 
 
 
 handle_result.no_ui = True

@@ -2,8 +2,9 @@
 
 {
   home.file = {
-    ".config/kitty/neighboring_window.py".source = ./neighboring_window.py;
+    # ".config/kitty/neighboring_window.py".source = ./neighboring_window.py;
     ".config/kitty/pass_keys.py".source = ./pass_keys.py;
+    ".config/kitty/get_layout.py".source = ./get_layout.py;
   };
 
   programs.kitty = {
@@ -12,7 +13,7 @@
       name = "FiraCode Nerd Font";
       size = 14;
     };
-    theme = "Gruvbox Material Dark Medium";
+    themeFile = "GruvboxMaterialDarkMedium";
     settings = {
       scrollback_lines = 20000;
       focus_follows_mouse = "yes";
@@ -46,10 +47,10 @@
       "cmd+equal" = "change_font_size all +2.0";
       "cmd+minus" = "change_font_size all -2.0";
       "cmd+0" = "change_font_size all 0";
-      "ctrl+j" = "kitten pass_keys.py neighboring_window bottom ctrl+j";
-      "ctrl+k" = "kitten pass_keys.py neighboring_window top    ctrl+k";
-      "ctrl+h" = "kitten pass_keys.py neighboring_window left   ctrl+h";
-      "ctrl+l" = "kitten pass_keys.py neighboring_window right  ctrl+l";
+      "ctrl+j" = "kitten pass_keys.py bottom ctrl+j";
+      "ctrl+k" = "kitten pass_keys.py top    ctrl+k";
+      "ctrl+h" = "kitten pass_keys.py left   ctrl+h";
+      "ctrl+l" = "kitten pass_keys.py right  ctrl+l";
     };
   };
 }
