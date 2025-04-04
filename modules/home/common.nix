@@ -24,6 +24,8 @@
     yarn
     ruby
     ruby-lsp
+    rustc
+    rustup
     sqlite
     direnv
     lazygit

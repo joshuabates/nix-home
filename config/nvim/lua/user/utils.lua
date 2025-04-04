@@ -1,7 +1,6 @@
 local M = {}
-local fn = vim.fn
 
-M.serializeTable = function (val, name, skipnewlines, depth)
+M.serializeTable = function(val, name, skipnewlines, depth)
   skipnewlines = skipnewlines or false
   depth = depth or 0
 
@@ -13,7 +12,7 @@ M.serializeTable = function (val, name, skipnewlines, depth)
     tmp = tmp .. "{" .. (not skipnewlines and "\n" or "")
 
     for k, v in pairs(val) do
-      tmp =  tmp .. M.serializeTable(v, k, skipnewlines, depth + 1) .. "," .. (not skipnewlines and "\n" or "")
+      tmp = tmp .. M.serializeTable(v, k, skipnewlines, depth + 1) .. "," .. (not skipnewlines and "\n" or "")
     end
 
     tmp = tmp .. string.rep(" ", depth) .. "}"
@@ -32,7 +31,10 @@ end
 
 M.file_exists = function(path)
   local f = io.open(path, "r")
-  if f ~= nil then io.close(f) return true else return false end
+  if f ~= nil then
+    io.close(f)
+    return true
+  else return false end
 end
 
 M.starts_with = function(str, start)
@@ -119,13 +121,13 @@ M.maybe_gem_cmd = function(gem_name, extra_args)
       cmd = { vim.fn.exepath("ruby"), "-S", cmd_name }
     end
   end
-  
+
   if extra_args then
     for _, arg in ipairs(extra_args) do
       table.insert(cmd, arg)
     end
   end
-  
+
   return cmd
 end
 
@@ -146,7 +148,7 @@ M.is_package_in_yarn = function(package_name)
 
   -- Check if package is in dependencies or devDependencies
   return (parsed.dependencies and parsed.dependencies[package_name]) or
-         (parsed.devDependencies and parsed.devDependencies[package_name])
+      (parsed.devDependencies and parsed.devDependencies[package_name])
 end
 
 M.maybe_yarn_cmd = function(package_name, extra_args)
@@ -154,10 +156,10 @@ M.maybe_yarn_cmd = function(package_name, extra_args)
     -- Add overrides as needed
     -- ["some-package"] = "some-command",
   }
-  
+
   local cmd_name = package_cmd_override[package_name] or package_name
   local cmd
-  
+
   if M.is_package_in_yarn(package_name) then
     cmd = { vim.fn.exepath("yarn"), "run", cmd_name }
   else
@@ -168,13 +170,13 @@ M.maybe_yarn_cmd = function(package_name, extra_args)
       cmd = { vim.fn.exepath("npx"), cmd_name }
     end
   end
-  
+
   if extra_args then
     for _, arg in ipairs(extra_args) do
       table.insert(cmd, arg)
     end
   end
-  
+
   return cmd
 end
 

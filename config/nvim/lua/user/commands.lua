@@ -85,14 +85,10 @@ if not vim.g.vscode then
 end
 
 local function copy_migration_timestamp()
-  -- Get the current file name
   local filename = vim.fn.expand('%:t')
-
-  -- Match the timestamp in the filename
   local timestamp = filename:match("(%d+)_.*%.rb")
 
   if timestamp then
-    -- Copy the timestamp to the macOS pasteboard
     vim.fn.system("echo '" .. timestamp .. "' | pbcopy")
     print("Timestamp " .. timestamp .. " copied to clipboard")
   else

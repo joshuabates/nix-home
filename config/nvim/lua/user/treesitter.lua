@@ -5,7 +5,7 @@ local status_ok, configs = pcall(require, "nvim-treesitter.configs")
 
 configs.setup({
   -- ensure_installed = "all", -- one of "all" or a list of languages
-  ensure_installed = { "c", "css", "dockerfile", "fish", "javascript", "jsdoc", "json", "python", "ruby", "rust", "scss", "typescript", "yaml" },
+  ensure_installed = { "c", "css", "dockerfile", "fish", "javascript", "jsdoc", "json", "python", "ruby", "rust", "scss", "tsx", "typescript", "yaml" },
   ignore_install = { "php", "lua" },  -- List of parsers to ignore installing
   highlight = {
     enable = true,                    -- false will disable the whole extension

@@ -1,160 +1,110 @@
 return {
-	"nvim-lua/plenary.nvim", -- Useful lua functions used by lots of plugins
-	"folke/neodev.nvim",
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		opts = { check_ts = true },
-		cond = not vim.g.vscode,
-		config = function(_, opts)
-			local ap = require("nvim-autopairs")
-			ap.setup(opts)
-			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-			local cmp = require("cmp")
-			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-		end,
-	},
-	"numToStr/Comment.nvim",
-	-- "kyazdani42/nvim-tree.lua",
+  "nvim-lua/plenary.nvim",
+  {
+    "folke/lazydev.nvim",
+    event = { "BufReadPost", "BufNewFile" },
+    ft = "lua",
+    opts = {
+      library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
+    },
+  },
+  {
+    "echasnovski/mini.nvim",
+    config = function()
+      require("mini.ai").setup()
+      require("mini.comment").setup()
+      require("mini.icons").setup()
+      require("mini.surround").setup({
+        -- keys = {
+        --   { "cs", "sr" }
+        -- }
+        -- mappings = {
+        --   add = 'ys',
+        --   delete = 'ds',
+        --   find = '',
+        --   find_left = '',
+        --   highlight = '',
+        --   replace = 'cs',
+        --   update_n_lines = '',
+        --
+        --   -- Add this only if you don't want to use extended mappings
+        --   suffix_last = '',
+        --   suffix_next = '',
+        -- },
+        -- search_method = 'cover_or_next',
+      })
+      -- TODO: this has too mny conflicts w/ existing keymaps but would be useful
+      -- require("mini.operators").setup({
+      --   replace = {
+      --     prefix = 'gp',
+      --     reindent_linewise = true,
+      --   },
+      -- })
+      require("mini.pairs").setup()
+      require("mini.indentscope").setup()
 
-	{ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
-	{
-		"kylechui/nvim-surround",
-		version = "*", -- Use for stability; omit to use `main` branch for the latest features
-		event = "VeryLazy",
-		config = function()
-			require("nvim-surround").setup({
-				-- Configuration here, or leave empty to use defaults
-			})
-		end,
-	},
-	-- "gabrielpoca/replacer.nvim",
-	-- uje { "stefandtw/quickfix-reflector.vim" }
+      -- TODO: treesj -> splitjoin?
+      -- require("mini.splitjoin").setup()
+    end,
+  },
 
-	-- { "github/copilot.vim", cond = not vim.g.vscode },
-	{
-		"zbirenbaum/copilot.lua",
-		cmd = "Copilot",
-		-- cond = false,
-		cond = not vim.g.vscode,
-		build = ":Copilot auth",
-		event = "InsertEnter",
-		opts = {
-			suggestion = {
-				enabled = true,
-				auto_trigger = true,
-				debounce = 75,
-				keymap = {
-					-- accept = "<Tab>",
-					accept_word = "<Right>",
-					accept_line = false,
-					close = "<Esc>",
-					next = "<Down>",
-					prev = "<Up>",
-					select = "<CR>",
-					dismiss = "<C-X>",
-				},
-			},
-			panel = {
-				enabled = false,
-			},
-		},
-	},
-	{
-		{
-			"CopilotC-Nvim/CopilotChat.nvim",
-			branch = "canary",
-      cond = not vim.g.vscode,
-			dependencies = {
-				{ "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
-				{ "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
-			},
-			opts = {
-				debug = false, -- Enable debugging
-			},
-			-- See Commands section for default commands if you want to lazy load on them
-		},
-	},
-	"famiu/nvim-reload",
-	"vim-ruby/vim-ruby",
-	{
-		"folke/which-key.nvim",
-		opts = {
+  -- "tabrielpoca/replacer.nvim",
+  -- uje { "stefandtw/quickfix-reflector.vim" }
+
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    config = function()
+      require("copilot").setup({
+        -- triggered via blink
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+        copilot_model = "gpt-4o-copilot",
+      })
+    end,
+    cond = not vim.g.vscode,
+    build = ":Copilot auth",
+    event = "BufReadPost",
+  },
+  "vim-ruby/vim-ruby",
+  {
+    "folke/which-key.nvim",
+    opts = {
       notify = false,
       preset = "modern",
-			-- plugins = { spelling = true },
-			cond = not vim.g.vscode,
+      -- plugins = { spelling = true },
+      cond = not vim.g.vscode,
 
-			defaults = {},
-		},
-		config = function(_, opts)
-			local wk = require("which-key")
-			wk.setup(opts)
-			wk.register(opts.defaults)
-		end,
-	},
-	{
-		"folke/flash.nvim",
-		event = "VeryLazy",
-		cond = not vim.g.vscode,
-		---@type Flash.Config
-		opts = {},
-		keys = {
-			{
-				"s",
-				mode = { "n", "x", "o" },
-				function()
-					require("flash").jump()
-				end,
-				desc = "Flash",
-			},
-			{
-				"S",
-				mode = { "n", "o", "x" },
-				function()
-					require("flash").treesitter()
-				end,
-				desc = "Flash Treesitter",
-			},
-			{
-				"r",
-				mode = "o",
-				function()
-					require("flash").remote()
-				end,
-				desc = "Remote Flash",
-			},
-			{
-				"R",
-				mode = { "o", "x" },
-				function()
-					require("flash").treesitter_search()
-				end,
-				desc = "Treesitter Search",
-			},
-		},
-	},
-	-- DAP
-	-- "mfussenegger/nvim-dap",
-	-- "rcarriga/nvim-dap-ui",
-	--
-	-- neotest doesn't yet have an adapter to run specs in toggleterm with streaming output but recently added APIs to allow both
-	-- https://github.com/nvim-neotest/neotest/pull/70 (streaming output)
-	-- https://github.com/nvim-neotest/neotest/discussions/46 (custom consumers)
-	-- https://github.com/nvim-neotest/neotest/issues/50
-	--
-	-- use({
-	--   'nvim-neotest/neotest',
-	--   requires = {
-	--     "nvim-lua/plenary.nvim",
-	--     "nvim-treesitter/nvim-treesitter",
-	--     "antoinemadec/FixCursorHold.nvim",
-	--     'olimorris/neotest-rspec',
-	--   },
-	-- })
-	--
-	-- https://github.com/vuki656/package-info.nvim
-	--
-	{ "janko/vim-test", cond = not vim.g.vscode },
-	-- "ravenxrz/DAPInstall.nvim",
+      defaults = {},
+    },
+    config = function(_, opts)
+      local wk = require("which-key")
+      wk.setup(opts)
+      -- wk.register(opts.defaults)
+    end,
+  },
+  {
+    'stevearc/overseer.nvim',
+    opts = {},
+
+    keys = {
+      { "<leader>rt", "<cmd>OverseerRun<cr>",    desc = "Run Task" },
+      { "<leader>rl", "<cmd>OverseerToggle<cr>", desc = "Tasklist" },
+    }
+  },
+  -- use({
+  --   'nvim-neotest/neotest',
+  --   requires = {
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-treesitter/nvim-treesitter",
+  --     "antoinemadec/FixCursorHold.nvim",
+  --     'olimorris/neotest-rspec',
+  --   },
+  -- })
+  --
+  -- https://github.com/vuki656/package-info.nvim
+  --
+  { "janko/vim-test", cond = not vim.g.vscode },
 }

@@ -1,6 +1,6 @@
 local status_ok, toggleterm = pcall(require, "toggleterm")
 local ok, terms = pcall(require, "toggleterm.terminal")
-local utils = require("user.utils")
+-- local utils = require("user.utils")
 
 if not status_ok then
   return
@@ -49,7 +49,7 @@ local function detect_shell()
   -- Default to bash if no valid fish binary is found
   return "/bin/bash"
 end
-local shell = detect_shell()
+-- local shell = detect_shell()
 
 toggleterm.setup({
   size = function(term)
