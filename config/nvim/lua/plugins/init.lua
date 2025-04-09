@@ -68,6 +68,12 @@ return {
     build = ":Copilot auth",
     event = "BufReadPost",
   },
+  {
+    "brenoprata10/nvim-highlight-colors",
+    config = function()
+      require('nvim-highlight-colors').setup({})
+    end
+  },
   "vim-ruby/vim-ruby",
   {
     "folke/which-key.nvim",

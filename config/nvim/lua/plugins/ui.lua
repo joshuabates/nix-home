@@ -8,6 +8,39 @@ return {
   },
   { "sainnhe/gruvbox-material" },
   { "luisiacc/gruvbox-baby" },
+  { "rebelot/kanagawa.nvim" },
+  { "rose-pine/neovim",          name = "rose-pine" },
+  { "EdenEast/nightfox.nvim" },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+
+    config = function()
+      require("catppuccin").setup({
+        integrations = {
+          blink_cmp = true,
+          diffview = true,
+          gitsigns = true,
+          mini = {
+            enabled = true,
+            indentscope_color = "", -- catppuccin color (eg. `lavender`) Default: text
+          },
+          noice = true,
+          copilot_vim = true,
+          overseer = true,
+          snacks = {
+            enabled = true,
+            indent_scope_color = "", -- catppuccin color (eg. `lavender`) Default: text
+          },
+          lsp_trouble = true,
+          which_key = true
+          -- grug_far = false
+        }
+      })
+    end
+
+  },
   {
     "folke/noice.nvim",
     cond = not vim.g.vscode,
