@@ -52,6 +52,9 @@
     ripgrep
     jq
     tree-sitter
+
+    zoxide
+    ncurses
   ];
 
   home.file = {
@@ -63,7 +66,7 @@
   programs = {
     fzf = {
       enable = true;
-      enableFishIntegration = true;
+      enableFishIntegration = false;
     };
     direnv = {
       enable = true;

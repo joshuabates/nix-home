@@ -3,9 +3,10 @@
 {
   home = {
     packages = with pkgs; [
-      fzf
-      fishPlugins.forgit
+      # fishPlugins.forgit
       # fishPlugins.fzf-fish
+      zoxide
+      bat
       eza
       starship
     ];
@@ -13,9 +14,10 @@
     sessionVariables = {
       # SHELL = "fish";
       TERMINAL = "kitty";
+      HOMEBREW_PREFIX = "/opt/homebrew";
+      forgit_revert_commit = "gfrc";
     };
   };
-
   programs.starship = {
     enable = true;
     enableFishIntegration = true;
@@ -37,7 +39,20 @@
       set -x EDITOR "nvim"
       set -x EVENT_NOKQUEUE 1
       set -x FD_SETSIZE 10000
+      zoxide init fish | source
+      [ -f $HOMEBREW_PREFIX/share/forgit/forgit.plugin.fish ]; and source $HOMEBREW_PREFIX/share/forgit/forgit.plugin.fish
     '';
+    plugins = [
+      {
+        name = "fzf";
+        src = pkgs.fetchFromGitHub {
+          owner = "PatrickF1";
+          repo = "fzf.fish";
+          rev = "8920367cf85eee5218cc25a11e209d46e2591e7a";
+          sha256 = "1hqqppna8iwjnm8135qdjbd093583qd2kbq8pj507zpb1wn9ihjg";
+        };
+      }
+    ];
     shellAliases = {
       ls = "eza";
       ssh = "kitty +kitten ssh";
@@ -51,6 +66,8 @@
       oc = "cd ~/Opencounter/Opencounter";
       x = "exit";
       cp = "cp -r";
+      cd = "z";
+      d = "zi";
       # Git
       g = "git";
       gl = "git log";

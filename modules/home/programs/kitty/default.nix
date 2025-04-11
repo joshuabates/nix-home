@@ -44,8 +44,8 @@
       "ctrl+8" = "goto_tab 8";
       "ctrl+i" = "toggle_layout stack";
       "alt+z" = "toggle_layout stack";
-      "cmd+equal" = "change_font_size all +2.0";
-      "cmd+minus" = "change_font_size all -2.0";
+      # "cmd+equal" = "change_font_size all +2.0";
+      # "cmd+minus" = "change_font_size all -2.0";
       "cmd+0" = "change_font_size all 0";
       "ctrl+j" = "kitten pass_keys.py bottom ctrl+j";
       "ctrl+k" = "kitten pass_keys.py top    ctrl+k";

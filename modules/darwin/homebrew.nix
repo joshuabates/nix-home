@@ -3,7 +3,7 @@
     brewPrefix = "/opt/homebrew/bin";
     enable = true;
     caskArgs.no_quarantine = true;
-    onActivation.cleanup = "zap";
+    # onActivation.cleanup = "zap";
     global = {
       brewfile = true;
       # lockfiles = true;
@@ -11,6 +11,7 @@
 
     # taps = ["puma/puma"];
     # brews = ["puma/puma/puma-dev"];
+    brews = ["forgit"];
     casks = [ 
       "1password"
       # "alfred"

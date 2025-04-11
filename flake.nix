@@ -18,7 +18,7 @@
     supportedSystems = ["aarch64-darwin"];
     darwinConfigurations =
     let
-      mkDarwinWorkstation = username: name: system: darwin.lib.darwinSystem {
+      mkDarwinWorkstation = username: uid: name: system: darwin.lib.darwinSystem {
         inherit system;
         modules = [
           ({ config, pkgs, ... }: {
@@ -27,7 +27,7 @@
               name = username;
               home = "/Users/${username}";
               shell = pkgs.fish;
-              uid = 503;
+              uid = uid;
             };
           })
           mac-app-util.darwinModules.default
@@ -51,9 +51,9 @@
       };
     in
     {
-      jbatesm3-mbp16 = mkDarwinWorkstation "joshuabates" "jbatesm3-mbp16" "aarch64-darwin";
-      studio = mkDarwinWorkstation "joshua" "studio" "aarch64-darwin";
-      mb14 = mkDarwinWorkstation "joshua" "mb14" "aarch64-darwin";
+      jbatesm3-mbp16 = mkDarwinWorkstation "joshuabates" 501 "jbatesm3-mbp16" "aarch64-darwin";
+      studio = mkDarwinWorkstation "joshua" 501 "studio" "aarch64-darwin";
+      mb14 = mkDarwinWorkstation "joshua" 503 "mb14" "aarch64-darwin";
     };
 
     nixosConfigurations = 

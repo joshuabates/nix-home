@@ -14,7 +14,15 @@ return {
     "echasnovski/mini.nvim",
     config = function()
       require("mini.ai").setup()
-      require("mini.comment").setup()
+      require("mini.comment").setup({
+        hooks = {
+          post = function()
+            if vim.fn.mode() == "n" then
+              vim.cmd('normal! j')
+            end
+          end,
+        }
+      })
       require("mini.icons").setup()
       require("mini.surround").setup({
         -- keys = {
@@ -56,12 +64,12 @@ return {
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
+    commit = "228cd74",
     config = function()
       require("copilot").setup({
         -- triggered via blink
-        suggestion = { enabled = false },
+        suggestion = { enabled = true },
         panel = { enabled = false },
-        copilot_model = "gpt-4o-copilot",
       })
     end,
     cond = not vim.g.vscode,
