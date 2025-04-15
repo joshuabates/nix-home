@@ -34,7 +34,9 @@ M.file_exists = function(path)
   if f ~= nil then
     io.close(f)
     return true
-  else return false end
+  else
+    return false
+  end
 end
 
 M.starts_with = function(str, start)
@@ -131,29 +133,46 @@ M.maybe_gem_cmd = function(gem_name, extra_args)
   return cmd
 end
 
+local package_json_cache = {
+  path = nil,
+  content = nil,
+}
+
 M.is_package_in_yarn = function(package_name)
-  local package_json_path = vim.fn.getcwd() .. "/package.json"
-  if vim.fn.filereadable(package_json_path) == 0 then
-    -- print("package.json not found")
+  local cwd = vim.fn.getcwd()
+  local package_json_path = cwd .. "/package.json"
+  local parsed
+  if package_json_cache.path == package_json_path then
+    parsed = package_json_cache.content
+  else
+    if vim.fn.filereadable(package_json_path) == 0 then
+      package_json_cache.path = package_json_path
+      package_json_cache.content = nil
+      return false
+    end
+
+    local package_json_content = vim.fn.readfile(package_json_path)
+    local success
+    success, parsed = pcall(vim.fn.json_decode, table.concat(package_json_content, "\n"))
+
+    if not success then
+      print("Error parsing package.json")
+      return false
+    end
+
+    package_json_cache.path = package_json_path
+    package_json_cache.content = parsed
+  end
+  if not parsed then
     return false
   end
 
-  -- Read and parse package.json
-  local package_json_content = vim.fn.readfile(package_json_path)
-  local success, parsed = pcall(vim.fn.json_decode, table.concat(package_json_content, "\n"))
-  if not success then
-    print("Error parsing package.json")
-    return false
-  end
-
-  -- Check if package is in dependencies or devDependencies
   return (parsed.dependencies and parsed.dependencies[package_name]) or
       (parsed.devDependencies and parsed.devDependencies[package_name])
 end
 
 M.maybe_yarn_cmd = function(package_name, extra_args)
   local package_cmd_override = {
-    -- Add overrides as needed
     -- ["some-package"] = "some-command",
   }
 
@@ -164,6 +183,7 @@ M.maybe_yarn_cmd = function(package_name, extra_args)
     cmd = { vim.fn.exepath("yarn"), "run", cmd_name }
   else
     local system_cmd = vim.fn.exepath(cmd_name)
+
     if system_cmd ~= "" then
       cmd = { system_cmd }
     else

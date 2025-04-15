@@ -64,7 +64,6 @@ return {
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
-    commit = "228cd74",
     config = function()
       require("copilot").setup({
         -- triggered via blink

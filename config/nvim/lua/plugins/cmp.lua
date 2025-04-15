@@ -3,19 +3,17 @@ if not vim.g.vscode then
     {
       'saghen/blink.cmp',
       build = 'nix run .#build-plugin',
-      commit = "ea29ab1",
       dependencies = { "fang2hou/blink-copilot" },
       opts = {
         keymap = {
           preset = 'enter',
-          ['<C-p>'] = {
+          ['<Tab>'] = {
             function(cmp)
               cmp.show({ providers = { 'copilot' }, })
-              -- cmp.selectNext()
             end
           },
           -- may want to disable autocomplete auto menu and use this?
-          -- ["<c-n>"] = { "show", "select_next", "fallback" },
+          ["<c-n>"] = { "show", "select_next", "fallback" },
         },
         signature = { enabled = false },
         completion = {
@@ -23,7 +21,7 @@ if not vim.g.vscode then
             auto_show = true,
           },
           ghost_text = {
-            enabled = true,
+            enabled = false,
           },
           keyword = { range = 'full' },
           list = { selection = { preselect = false, auto_insert = true } },

@@ -37,7 +37,7 @@ return {
         settings = {
           tsserver_max_memory = 8192,
           separate_diagnostic_server = true,
-          expose_as_code_action = "all",
+          -- expose_as_code_action = "all",
           code_lens = "off",
           tsserver_file_preferences = {
             includeInlayParameterNameHints = "all",
@@ -179,8 +179,9 @@ return {
           })
         else
           lspconfig.eslint.setup({
+            autostart = true,
             capabilities = capabilities,
-            cmd = utils.maybe_yarn_cmd("eslint_d", { "--stdio" }),
+            -- cmd = utils.maybe_yarn_cmd("eslint_d", { "--stdin" }),
             on_attach = function(client)
               client.server_capabilities.documentFormattingProvider = false
               client.server_capabilities.documentRangeFormattingProvider = false
