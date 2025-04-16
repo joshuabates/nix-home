@@ -7,7 +7,7 @@ if not vim.g.vscode then
       opts = {
         keymap = {
           preset = 'enter',
-          ['<Tab>'] = {
+          ['<C-p>'] = {
             function(cmp)
               cmp.show({ providers = { 'copilot' }, })
             end
@@ -19,16 +19,36 @@ if not vim.g.vscode then
         completion = {
           documentation = {
             auto_show = true,
+            auto_show_delay_ms = 100,
+            -- window = {
+            --   border = 1,
+            --   max_height = 30,
+            -- }
           },
           ghost_text = {
             enabled = false,
           },
           keyword = { range = 'full' },
           list = { selection = { preselect = false, auto_insert = true } },
+          -- menu = {
+          --   -- auto_show = false,
+          --   draw = {
+          --     columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
+          --   },
+          -- },
           menu = {
-            -- auto_show = false,
             draw = {
-              columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
+              columns = { { "kind_icon" }, { "label", gap = 2 } },
+              components = {
+                label = {
+                  text = function(ctx)
+                    return require("colorful-menu").blink_components_text(ctx)
+                  end,
+                  highlight = function(ctx)
+                    return require("colorful-menu").blink_components_highlight(ctx)
+                  end,
+                },
+              },
             },
           },
         },
@@ -38,13 +58,24 @@ if not vim.g.vscode then
             copilot = {
               name = "copilot",
               module = "blink-copilot",
-              score_offset = 100,
+              -- score_offset = 100,
               async = true,
+              opts = {
+                max_completions = 5,
+                max_attempts = 6,
+                debounce = 100,
+              }
             },
           },
         },
       },
       opts_extend = { "sources.default" }
     },
+    {
+      "xzbdmw/colorful-menu.nvim",
+      config = function()
+        require("colorful-menu").setup({})
+      end,
+    }
   }
 end
