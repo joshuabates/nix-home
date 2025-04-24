@@ -1,11 +1,34 @@
 if vim.g.vscode then
-  return
+  return {}
 end
 
 local icons = require("user/icons")
 
 return {
   "ray-x/lsp_signature.nvim",
+  {
+    "rachartier/tiny-code-action.nvim",
+    enabled = false,
+    dependencies = {
+      { "nvim-lua/plenary.nvim" },
+    },
+    event = "LspAttach",
+    opts = {
+      backend = "vim",
+      picker = {
+        "snacks",
+      },
+    },
+    keys = {
+      {
+        "<leader>la",
+        function()
+          require("tiny-code-action").code_action()
+        end,
+        desc = "Code Actions"
+      }
+    }
+  },
   {
     "smjonas/inc-rename.nvim",
     config = function()

@@ -47,6 +47,8 @@ vim.opt.whichwrap:append("<,>,[,],h,l")
 vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
 vim.opt.wrap = false                   -- display lines as one long line
 vim.opt.writebackup = false            -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
+
+vim.o.winborder = "single"
 -- vim.lsp.set_defaults({ set_keymap = false })
 -- vim.opt.netrw_banner = 0
 -- vim.opt.netrw_liststyle = 3

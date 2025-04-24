@@ -80,17 +80,100 @@ local function getVisualSelection()
 end
 
 if vim.g.vscode then
-  -- keymap("n", "<leader><t>", ":call VSCodeNotify('workbench.action.quickOpen')<CR>", opts)
-  -- keymap("n", "<leader><leader>", ":call VSCodeNotify('workbench.action.openPreviousRecentlyUsedEditor')<CR>", opts)
-  keymap("n", "<leader>", ":call VSCodeNotify('whichkey.show')<CR>", opts)
-  keymap("x", "<leader>", function()
-    local start, finish = getVisualSelection()
-    if vim.fn.mode() == "V" then
-      require("vscode-neovim").notify_range("vspacecode.space", start[2], finish[2], 1)
-    else
-      require("vscode-neovim").notify_range_pos("vspacecode.space", start[2], finish[2], start[3], finish[3], 1)
-    end
-  end)
+  -- Search
+  keymap('n', '<leader>fd', "<Cmd>call VSCodeNotify('workbench.action.findInFiles')<CR>",
+    { silent = true, desc = "Search in dir" })
+  -- Files
+  keymap('n', '<leader>ff', "<Cmd>call VSCodeNotify('workbench.action.quickOpen')<CR>", { silent = true, desc = "Files" })
+  keymap('n', '<leader>t', "<Cmd>call VSCodeNotify('workbench.action.quickOpen')<CR>", { silent = true, desc = "Files" })
+  keymap('n', '<leader>f ', "<Cmd>call VSCodeNotify('workbench.action.quickOpen')<CR>", { silent = true, desc = "Files" })
+  -- Buffers (open editors)
+  keymap('n', '<leader>b', "<Cmd>call VSCodeNotify('workbench.action.showAllEditors')<CR>",
+    { silent = true, desc = "Buffers" })
+  keymap('n', '<leader>fb', "<Cmd>call VSCodeNotify('workbench.action.showAllEditors')<CR>",
+    { silent = true, desc = "Buffers" })
+  -- Quickfix / Problems
+  keymap('n', '<leader>fq', "<Cmd>call VSCodeNotify('workbench.actions.view.problems')<CR>",
+    { silent = true, desc = "Quickfix History" })
+  -- Git
+  -- keymap('n', '<leader>gb', "<Cmd>call VSCodeNotify('git.checkout')<CR>", { silent = true, desc = "Git Branches" })
+  -- For these you’ll need something like GitLens installed:
+  keymap('n', '<leader>gc', "<Cmd>call VSCodeNotify('gitlens.showCommitsView')<CR>",
+    { silent = true, desc = "Git Commits" })
+  keymap('n', '<leader>gl', "<Cmd>call VSCodeNotify('gitlens.showQuickHistory')<CR>",
+    { silent = true, desc = "Git Line History" })
+  keymap('n', '<leader>gf', "<Cmd>call VSCodeNotify('gitlens.showFileHistory')<CR>",
+    { silent = true, desc = "Git File Commits" })
+  keymap('n', '<leader>gh', "<Cmd>call VSCodeNotify('gitlens.showStashes')<CR>", { silent = true, desc = "Git Stashes" })
+  keymap('n', '<leader>gd', "<Cmd>call VSCodeNotify('git.openChange')<CR>", { silent = true, desc = "Git Diff" })
+  keymap('n', '<leader>gs', "<Cmd>call VSCodeNotify('workbench.view.scm')<CR>", { silent = true, desc = "Git Status" })
+  -- History & recents
+  keymap('n', '<leader>f/', "<Cmd>call VSCodeNotify('workbench.action.showCommands')<CR>",
+    { silent = true, desc = "Search History" })
+  -- LSP & symbols
+  keymap('n', '<leader>fm', "<Cmd>call VSCodeNotify('workbench.action.gotoSymbol')<CR>",
+    { silent = true, desc = "LSP Symbols" })
+  keymap('n', 'gr', "<Cmd>call VSCodeNotify('editor.action.referenceSearch.trigger')<CR>",
+    { silent = true, desc = "Find References" })
+  keymap('n', 'gd', "<Cmd>call VSCodeNotify('editor.action.revealDefinition')<CR>",
+    { silent = true, desc = "Go to Definition" })
+  -- Rails-specific quickopens
+  keymap('n', '<leader>frc', "<Cmd>call VSCodeNotify('workbench.action.quickOpen', 'app/controllers/')<CR>",
+    { silent = true, desc = "Rails Controllers" })
+  keymap('n', '<leader>frm', "<Cmd>call VSCodeNotify('workbench.action.quickOpen', 'app/models/')<CR>",
+    { silent = true, desc = "Rails Models" })
+  keymap('n', '<leader>frs', "<Cmd>call VSCodeNotify('workbench.action.quickOpen', 'spec/')<CR>",
+    { silent = true, desc = "Rails Specs" })
+  -- Grep / word
+  keymap('n', '<leader>fs', "<Cmd>call VSCodeNotify('workbench.action.findInFiles')<CR>",
+    { silent = true, desc = "Grep Search" })
+  keymap('n', '<leader>fw', function()
+    require('vscode').action(
+      'workbench.action.findInFiles',
+      { args = { query = vim.fn.expand('<cword>') } }
+    )
+  end, { silent = true, desc = "Search word under cursor in project" })
+  -- Diagnostics panels
+  keymap('n', '<leader>xa', "<Cmd>call VSCodeNotify('workbench.actions.view.problems')<CR>",
+    { silent = true, desc = "Project Diagnostics" })
+  keymap('n', '<leader>xx', "<Cmd>call VSCodeNotify('editor.action.marker.next')<CR>",
+    { silent = true, desc = "File Diagnostics" })
+  -- Misc
+  keymap('n', '<leader>hc', "<Cmd>call VSCodeNotify('workbench.action.showCommands')<CR>",
+    { silent = true, desc = "Commands" })
+  keymap('n', '<leader>hk', "<Cmd>call VSCodeNotify('workbench.action.openGlobalKeybindings')<CR>",
+    { silent = true, desc = "Keymaps" })
+  keymap('n', '<leader>hh', "<Cmd>call VSCodeNotify('workbench.action.openDocumentationUrl')<CR>",
+    { silent = true, desc = "Help Pages" })
+  -- keymap('n', '<leader>vc', "<Cmd>call VSCodeNotify('workbench.action.selectColorTheme')<CR>",
+  -- { silent = true, desc = "Colorschemes" })
+  keymap('n', '<leader>vn', "<Cmd>call VSCodeNotify('notifications.showList')<CR>",
+    { silent = true, desc = "Notifications" })
+
+  -- Toggle the side-bar (focus/hide Explorer)
+  keymap('n', '<leader>we', function()
+    require('vscode').action('workbench.action.toggleSidebarVisibility')
+  end, { silent = true, desc = "Toggle Explorer Sidebar" })
+
+  -- Enter/exit Zen Mode
+  keymap('n', '<leader>wz', function()
+    require('vscode').action('workbench.action.toggleZenMode')
+  end, { silent = true, desc = "Toggle Zen Mode" })
+
+  keymap('n', '<leader><leader>', function()
+    require('vscode').action('workbench.action.quickOpenPreviousRecentlyUsedEditorInGroup')
+    vim.defer_fn(function()
+      require('vscode').action('list.select')
+    end, 50)
+  end, opts)
+  -- keymap('x', '<leader>', function()
+  --   local start, finish = getVisualSelection()
+  --   if vim.fn.mode() == "V" then
+  --     require("vscode-neovim").notify_range("vspacecode.space", start[2], finish[2], 1)
+  --   else
+  --     require("vscode-neovim").notify_range_pos("vspacecode.space", start[2], finish[2], start[3], finish[3], 1)
+  --   end
+  -- end, { silent = true })
 else
   -- " Switch between files with leader-leader
   keymap("n", "<leader><leader>", "<C-^>", opts)
@@ -123,7 +206,6 @@ keymap("n", "<leader>K", ":w<CR>:cP<CR>", opts)
 keymap("n", "<leader>gg", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", opts)
 keymap("n", "<C-x>", "<cmd>lua CloseQuickFixOrBuffer()<CR>", opts)
 keymap("n", "<leader>z", "<cmd>ZenMode<cr>", opts)
-
 
 -- Trouble / Quicklist / Diagnostics
 

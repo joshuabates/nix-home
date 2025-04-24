@@ -1,10 +1,6 @@
 local status_ok, gitsigns = pcall(require, "gitsigns")
 if not status_ok then
-	return
-end
-
-if vim.g.vscode then
-	return
+  return
 end
 
 gitsigns.setup({
