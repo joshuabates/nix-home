@@ -84,7 +84,7 @@ return {
             vim.b.copilot_enabled = false
           end
         end,
-      }):map("<leader>ux")
+      }):map("<leader><Tab>")
 
       require("copilot").setup({
         -- triggered via blink

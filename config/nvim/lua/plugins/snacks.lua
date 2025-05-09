@@ -36,6 +36,10 @@ return {
         enabled = true,
         ui_select = true,
       },
+      scratch = {
+        enabled = true,
+        ft = "markdown"
+      },
       toggle = { enabled = true },
       quickfile = { enabled = true },
       words = { enabled = true },
@@ -96,7 +100,9 @@ return {
       { "<leader>frm",      function() Snacks.picker.files({ cwd = "app/models" }) end,                    desc = "Rails Models" },
       { "<leader>frs",      function() Snacks.picker.files({ cwd = "spec" }) end,                          desc = "Rails Specs" },
       { "<leader>fs",       function() S.enhancedPickers.grep() end,                                       desc = "Grep Search" },
-      { "<leader>fw",       function() Snacks.picker.grep_word() end,                                      desc = "Search Word",        mode = { "n", "x" } },
+      { "<leader>fw",       function() Snacks.picker.grep_word() end,                                      desc = "Search Word",          mode = { "n", "x" } },
+      { "<leader>fc",       function() Snacks.scratch.select() end,                                        desc = "Select Scratch Buffer" },
+      { "<leader>ws",       function() Snacks.scratch() end,                                               desc = "Toggle Scratch Buffer" },
       { "<leader>xa",       function() Snacks.picker.diagnostics() end,                                    desc = "Project Diagnostics" },
       { "<leader>xx",       function() Snacks.picker.diagnostics_buffer() end,                             desc = "File Diagnostics" },
       { "<leader>hc",       function() Snacks.picker.commands() end,                                       desc = "Commands" },
