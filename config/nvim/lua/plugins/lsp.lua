@@ -85,6 +85,8 @@ return {
       -- { "<leader>lr", function() vim.lsp.buf.rename() end,                     desc = "Rename Symbol" },
       { "<leader>ls", function() vim.lsp.buf.signature_help() end,             desc = "Signature Help" },
       { "<leader>lq", function() vim.diagnostic.setloclist() end,              desc = "Diagnostics to Location List" },
+      { "<leader>lm", "<cmd>TSToolsAddMissingImports<cr>",                     desc = "Add missing imports" },
+      { "<leader>lx", "<cmd>TSToolsRemoveUnusedImports<cr>",                   desc = "Add missing imports" },
 
       -- { "gD",         function() vim.lsp.buf.declaration() end,                desc = "Go to Declaration" },
       { "gI",         function() vim.lsp.buf.implementation() end,             desc = "Go to Implementation" },

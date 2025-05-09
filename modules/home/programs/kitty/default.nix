@@ -11,7 +11,7 @@
     enable = true;
     font = {
       name = "FiraCode Nerd Font";
-      size = 14;
+      size = 16;
     };
     themeFile = "GruvboxMaterialDarkMedium";
     settings = {
