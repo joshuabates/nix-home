@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(nix flake update:*)",
+      "Bash(darwin-rebuild switch:*)"
+    ],
+    "deny": []
+  }
+}

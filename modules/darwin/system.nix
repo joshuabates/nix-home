@@ -1,6 +1,7 @@
 { pkgs, ... }: {
 
   system = {
+    primaryUser = "joshua";
     keyboard.enableKeyMapping = true;
     keyboard.remapCapsLockToControl = true;
 

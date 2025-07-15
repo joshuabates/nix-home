@@ -28,13 +28,47 @@ return {
       },
       debug = { enabled = true },
       dim = { enabled = true },
-      explorer = { enabled = true },
+      explorer = {
+        enabled = true
+      },
       input = { enabled = true },
       notifier = { enabled = true },
-      notify = { enabled = true },
+      notify = { enabled = false },
       picker = {
         enabled = true,
         ui_select = true,
+        sources = {
+          explorer = {
+            auto_close = true,
+            layout = {
+              preview = true,
+              preset = 'default',
+            },
+            --   box    = 'vertical',
+            --   row    = 0,
+            --   col    = 0,
+            --   border = 'rounded',
+            --   {
+            --     win = 'input',
+            --     height = 1,
+            --     border = 'rounded',
+            --     title = 'Find {title} {live} {flags}',
+            --     title_pos = 'center',
+            --   },
+            --   {
+            --     box = 'horizontal',
+            --     {
+            --       win = 'list',
+            --     },
+            --     {
+            --       win = 'preview',
+            --       border = 'left',
+            --       width = 0.6,
+            --     },
+            --   },
+            -- },
+          },
+        },
       },
       scratch = {
         enabled = true,
@@ -70,7 +104,15 @@ return {
     },
     keys = {
       -- EXPLORER
-      { "<leader>we",       function() Snacks.explorer() end,                                              desc = "File Explorer" },
+      {
+        "<leader>we",
+        function()
+          Snacks.explorer({
+
+          })
+        end,
+        desc = "File Explorer"
+      },
 
       -- ZEN
       { "<leader>wz",       function() Snacks.zen() end,                                                   desc = "Zen" },
@@ -93,6 +135,7 @@ return {
       { "<leader>gs",       function() Snacks.picker.git_status() end,                                     desc = "git status" },
       { "<leader>f/",       function() Snacks.picker.search_history() end,                                 desc = "Search History" },
       { "<leader>f:",       function() Snacks.picker.command_history() end,                                desc = "command history" },
+      { "<leader>fj",       function() Snacks.picker.jumps() end,                                          desc = "Last Search" },
       { "<leader>fl",       function() Snacks.picker.resume() end,                                         desc = "Last Search" },
       { "<leader>fm",       function() Snacks.picker.lsp_symbols() end,                                    desc = "LSP Symbols" },
       { "<leader>fq",       function() Snacks.picker.qflist() end,                                         desc = "Quickfix History" },

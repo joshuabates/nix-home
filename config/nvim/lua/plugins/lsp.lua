@@ -232,12 +232,12 @@ return {
       formatters_by_ft = {
         -- lua = { "stylua" },
         css = { "biome", lsp_format = "prefer" },
-        javascript = { "biome", "eslint_d", stop_after_first = true, lsp_format = "prefer" },
-        javascriptreact = { "biome", "eslint_d", stop_after_first = true, lsp_format = "prefer" },
+        javascript = { "biome", "biome-organize-imports", "eslint_d", stop_after_first = true, lsp_format = "prefer" },
+        javascriptreact = { "biome", "biome-organize-imports", "eslint_d", stop_after_first = true, lsp_format = "prefer" },
         json = { "biome", lsp_format = "prefer" },
         ruby = { "standardrb", lsp_format = "prefer" },
-        typescript = { "biome", "eslint_d", "prettier", stop_after_first = true, lsp_format = "prefer" },
-        typescriptreact = { "biome", "eslint_d", "prettier", stop_after_first = true, lsp_format = "prefer" },
+        typescript = { "biome", "biome-organize-imports", "eslint_d", "prettier", stop_after_first = true, lsp_format = "prefer" },
+        typescriptreact = { "biome", "biome-organize-imports", "eslint_d", "prettier", stop_after_first = true, lsp_format = "prefer" },
       },
       format_on_save = {
         timeout_ms = 5000,

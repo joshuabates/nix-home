@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 
 {
   home = {
@@ -33,6 +33,7 @@
       fish_add_path /usr/local/sbin
       fish_add_path /usr/local/share/npm/bin/
       fish_add_path /opt/homebrew/bin
+      fish_add_path ${config.home.homeDirectory}/.npm-global/bin
       # fish_add_path "./bin"
       
       set -x LC_CTYPE en_US.UTF-8

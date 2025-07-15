@@ -62,56 +62,6 @@ return {
   -- uje { "stefandtw/quickfix-reflector.vim" }
 
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    config = function()
-      Snacks.toggle({
-        name = "Github Copilot",
-        get = function()
-          return vim.b.copilot_enabled;
-        end,
-        set = function(state)
-          local suggestions = require("copilot.suggestion")
-          require("copilot.client").use_client(function()
-            suggestions.toggle_auto_trigger()
-          end)
-
-          if state then
-            vim.b.copilot_enabled = true
-            -- vim.b.copilot_suggestion_auto_trigger = false
-          else
-            -- vim.b.copilot_suggestion_auto_trigger = true
-            vim.b.copilot_enabled = false
-          end
-        end,
-      }):map("<leader><Tab>")
-
-      require("copilot").setup({
-        -- triggered via blink
-        suggestion = {
-          enabled = true,
-          auto_trigger = false,
-          hide_during_completion = true,
-          keymap = {
-            accept = "<Tab>",
-            accept_word = "<Right>",
-            accept_line = false,
-            next = "<Down>",
-            prev = "<Up>",
-            dismiss = "<C-]>",
-          },
-        },
-        panel = { enabled = false },
-      })
-    end,
-    cond = not vim.g.vscode,
-    build = ":Copilot auth",
-    event = "BufReadPost",
-    keys = {
-      { "<leader><Tab>", "<cmd>Copilot suggestion toggle_auto_trigger<cr>", desc = "Toggle Copilot" },
-    }
-  },
-  {
     "brenoprata10/nvim-highlight-colors",
     config = function()
       require('nvim-highlight-colors').setup({})

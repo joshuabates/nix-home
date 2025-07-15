@@ -17,11 +17,13 @@
     neovim
     fd
     gcc
+    gh
     nss
     overmind
     poetry
     nodejs
     yarn
+    pnpm
     ruby
     ruby-lsp
     rustc
@@ -36,6 +38,7 @@
     python3Packages.virtualenv
     ffmpeg
     yt-dlp
+    uv
 
     nodePackages.typescript-language-server
     vscode-langservers-extracted
@@ -60,6 +63,9 @@
   home.file = {
     ".config/nvim" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Projects/nix-home/config/nvim";
+    };
+    ".npmrc" = {
+      text = ''prefix = ${config.home.homeDirectory}/.npm-global'';
     };
   };
 
