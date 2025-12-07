@@ -18,6 +18,7 @@ configs.setup({
     enable = true,
   },
   indent = { enable = false },
+  fold = { enable = true },
   -- textsubjects = {
   --   enable = true,
   --   prev_selection = ',',

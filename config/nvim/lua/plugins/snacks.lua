@@ -9,6 +9,38 @@ return {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
+    config = function(_, opts)
+      local Snacks = require("snacks")
+      Snacks.setup(opts)
+      
+      -- Create TypeScript types toggle
+      Snacks.toggle({
+        name = "TypeScript Types",
+        get = function()
+          -- Check if conceal.nvim is loaded and get its state
+          local ok, conceal = pcall(require, "conceal")
+          if ok then
+            return conceal.is_enabled("typescript") or conceal.is_enabled("typescriptreact")
+          end
+          return vim.o.conceallevel > 0
+        end,
+        set = function(state)
+          -- Toggle conceal.nvim if available
+          local ok, conceal = pcall(require, "conceal")
+          if ok then
+            conceal.toggle()
+          else
+            -- Fallback to conceallevel
+            if state then
+              vim.o.conceallevel = 3
+              vim.o.concealcursor = "nc"
+            else
+              vim.o.conceallevel = 0
+            end
+          end
+        end,
+      }):map("<leader>ut")
+    end,
     opts = {
       bigfile = { enabled = true },
       dashboard = {

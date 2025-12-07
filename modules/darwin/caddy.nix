@@ -1,10 +1,10 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, home, services, ... }: {
 
   imports = [];
 
-  #home.packages = with pkgs; [
+  # home.packages = with pkgs; [
   #  caddy
-  #];
+  # ];
 
   services.caddy = {
     enable = true;
