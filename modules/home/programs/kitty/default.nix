@@ -24,8 +24,7 @@
       tab_bar_edge = "top";
       tab_bar_style = "powerline";
       tab_powerline_style = "slanted";
-      # shell = "/opt/homebrew/bin/fish --login";
-      # editor = "/usr/local/bin/nvim --login";
+      shell = "${pkgs.fish}/bin/fish --login";
       allow_remote_control = "yes";
       listen_on = "unix:/tmp/kitty";
       macos_quit_when_last_window_closed = "yes";

@@ -90,6 +90,9 @@
       grc = "git rebase --continue";
       gsl = "git show $(git stash list | cut -d\":\" -f 1)";
       gsp = "git stash && git pull && git stash pop";
+      cc = "npx --yes @anthropic-ai/claude-code@latest";
+      ccc = "npx --yes @anthropic-ai/claude-code@latest --continue";
+      ccr = "npx --yes @anthropic-ai/claude-code@latest --resume";
     };
     # interactiveShellInit = fileContents ./interactiveShellInit.fish;
     # shellInit = fileContents ./shellInit.fish;

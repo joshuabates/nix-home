@@ -3,7 +3,7 @@
   imports = [ ./programs/git.nix ./programs/fish.nix ./programs/kitty ];
 
   home.packages = with pkgs; [
-    fira-code-nerdfont
+    nerd-fonts.fira-code
     wget
     curl
     unzip
@@ -20,7 +20,7 @@
     gh
     nss
     overmind
-    poetry
+    # poetry  # broken in nixpkgs - pbs-installer version conflict
     nodejs
     yarn
     pnpm

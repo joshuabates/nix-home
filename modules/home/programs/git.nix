@@ -3,10 +3,12 @@
 {
   programs.git = {
     enable = true;
-    userName = "Joshua Bates";
-    userEmail = "joshuabates@gmail.com";
-    
-    extraConfig = {
+
+    settings = {
+      user = {
+        name = "Joshua Bates";
+        email = "joshuabates@gmail.com";
+      };
       core = {
         editor = "nvim --startuptime nvim-profile.log";
         pager = "delta --syntax-theme='gruvbox-dark'";
@@ -67,30 +69,29 @@
         smudge = "git-lfs smudge -- %f";
         process = "git-lfs filter-process";
       };
-    };
-
-    aliases = {
-      st = "status";
-      s = "status";
-      rs = "reset";
-      ci = "commit -v";
-      co = "checkout";
-      b = "branch --sort=-committerdate";
-      br = "branch";
-      mt = "mergetool";
-      d = "diff";
-      di = "diff";
-      dc = "diff --cached";
-      a = "add";
-      ap = "add --patch";
-      ae = "add --edit";
-      get = "!git fetch && ( git rebase -v origin || ( git stash && ( git rebase -v origin || echo \"WARNING: Run 'git stash pop' manually!\" ) && git stash pop ) )";
-      lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(yellow bold)<%an>%Creset' --abbrev-commit --date=relative";
-      l = "log --graph --abbrev-commit --date=relative";
-      ps = "push";
-      fe = "fetch";
-      sh = "stash";
-      ff = "merge --ff-only";
+      alias = {
+        st = "status";
+        s = "status";
+        rs = "reset";
+        ci = "commit -v";
+        co = "checkout";
+        b = "branch --sort=-committerdate";
+        br = "branch";
+        mt = "mergetool";
+        d = "diff";
+        di = "diff";
+        dc = "diff --cached";
+        a = "add";
+        ap = "add --patch";
+        ae = "add --edit";
+        get = "!git fetch && ( git rebase -v origin || ( git stash && ( git rebase -v origin || echo \"WARNING: Run 'git stash pop' manually!\" ) && git stash pop ) )";
+        lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(yellow bold)<%an>%Creset' --abbrev-commit --date=relative";
+        l = "log --graph --abbrev-commit --date=relative";
+        ps = "push";
+        fe = "fetch";
+        sh = "stash";
+        ff = "merge --ff-only";
+      };
     };
 
     ignores = [

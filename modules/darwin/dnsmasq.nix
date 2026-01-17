@@ -23,7 +23,7 @@ in
     serviceConfig.ProgramArguments = [
       "/bin/sh"
       "-c"
-      "/bin/wait4path ${package} &amp;&amp; exec ${package}/bin/dnsmasq ${toString args}"
+      "/bin/wait4path ${package} && exec ${package}/bin/dnsmasq ${toString args}"
     ];
     serviceConfig.StandardOutPath = /var/log/dnsmasq.log;
     serviceConfig.StandardErrorPath = /var/log/dnsmasq.log;

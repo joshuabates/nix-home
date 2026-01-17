@@ -41,9 +41,9 @@
     ];
 
     masApps = {
-      "Omnivore: Read-it-later" = 1564031042;
-      "Shazam: Identify Songs" = 897118787;
-      "Tot" = 1491071483;
+      # "Omnivore: Read-it-later" = 1564031042;
+      # "Shazam: Identify Songs" = 897118787;
+      # "Tot" = 1491071483;
       # "Plume - Light Menubar Note" = 1513115773;
     };
   };
