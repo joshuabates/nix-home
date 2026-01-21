@@ -74,6 +74,15 @@
     };
   };
 
+  home.activation.claudeSetup = config.lib.dag.entryAfter ["writeBoundary"] ''
+    if [ ! -d ~/.claude/.git ]; then
+      $DRY_RUN_CMD ${pkgs.git}/bin/git clone git@github.com:joshuabates/claude-config.git ~/.claude
+      $DRY_RUN_CMD ~/.claude/bootstrap.sh
+    else
+      echo "~/.claude already exists, skipping clone"
+    fi
+  '';
+
   programs = {
     fzf = {
       enable = true;
