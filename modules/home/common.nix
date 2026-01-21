@@ -25,10 +25,6 @@
     yarn
     pnpm
     bun
-    # Claude Code wrapper (npx handles updates automatically)
-    (writeShellScriptBin "claude" ''
-      exec npx @anthropic-ai/claude-code@latest "$@"
-    '')
     ruby
     ruby-lsp
     rustc

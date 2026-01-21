@@ -34,7 +34,7 @@
       fish_add_path /usr/local/share/npm/bin/
       fish_add_path /opt/homebrew/bin
       fish_add_path ${config.home.homeDirectory}/.npm-global/bin
-      # fish_add_path "./bin"
+      fish_add_path ${config.home.homeDirectory}/.local/bin
       
       set -x LC_CTYPE en_US.UTF-8
       set -x EDITOR "nvim"
@@ -90,9 +90,9 @@
       grc = "git rebase --continue";
       gsl = "git show $(git stash list | cut -d\":\" -f 1)";
       gsp = "git stash && git pull && git stash pop";
-      cc = "npx --yes @anthropic-ai/claude-code@latest";
-      ccc = "npx --yes @anthropic-ai/claude-code@latest --continue";
-      ccr = "npx --yes @anthropic-ai/claude-code@latest --resume";
+      cc = "claude";
+      ccc = "claude --continue";
+      ccr = "claude --resume";
     };
     # interactiveShellInit = fileContents ./interactiveShellInit.fish;
     # shellInit = fileContents ./shellInit.fish;
