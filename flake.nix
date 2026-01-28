@@ -19,6 +19,7 @@
     let
       mkDarwinWorkstation = username: uid: name: system: darwin.lib.darwinSystem {
         inherit system;
+        specialArgs = { inherit username; };
         modules = [
           ({ config, pkgs, ... }: {
             users.knownUsers = [ username ];

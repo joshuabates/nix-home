@@ -1,7 +1,7 @@
-{ pkgs, ... }: {
+{ pkgs, username, ... }: {
 
   system = {
-    primaryUser = "joshua";
+    primaryUser = username;
     keyboard.enableKeyMapping = true;
     keyboard.remapCapsLockToControl = true;
 

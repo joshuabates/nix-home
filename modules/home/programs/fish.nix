@@ -28,6 +28,8 @@
     interactiveShellInit = ''
       set -g fish_greeting
       set -g fish_key_bindings fish_vi_key_bindings
+      bind -M insert \cr _fzf_search_history
+      bind -M default \cr _fzf_search_history
       set -e fish_user_paths
       # fish_add_path "./node_modules"
       fish_add_path /usr/local/sbin

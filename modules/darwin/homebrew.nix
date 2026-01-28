@@ -12,7 +12,7 @@
     # taps = ["puma/puma"];
     # brews = ["puma/puma/puma-dev"];
     brews = ["forgit"];
-    casks = [ 
+    casks = [
       "1password"
       # "alfred"
       "arq"
@@ -41,7 +41,7 @@
     ];
 
     masApps = {
-      # "Omnivore: Read-it-later" = 1564031042;
+      # "Omnivore: Read-it-later" = 1564031042;  # Service shut down in 2024
       # "Shazam: Identify Songs" = 897118787;
       # "Tot" = 1491071483;
       # "Plume - Light Menubar Note" = 1513115773;
