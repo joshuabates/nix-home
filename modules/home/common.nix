@@ -1,6 +1,6 @@
 { pkgs, config, ... }: {
 
-  imports = [ ./programs/git.nix ./programs/fish.nix ./programs/kitty ];
+  imports = [ ./programs/git.nix ./programs/fish.nix ./programs/kitty ./programs/tmux.nix ];
 
   home.packages = with pkgs; [
     nerd-fonts.fira-code
