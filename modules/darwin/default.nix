@@ -5,6 +5,7 @@
   nixpkgs.config = { allowUnfree = true; allowBroken = true; };
   nix.extraOptions = ''
     experimental-features = nix-command flakes
+    accept-flake-config = true
   '';
 
   nix.settings = {

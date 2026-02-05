@@ -40,6 +40,7 @@
     ffmpeg
     yt-dlp
     uv
+    pm2
 
     nodePackages.typescript-language-server
     vscode-langservers-extracted
@@ -94,4 +95,5 @@
       };
     };
   };
+  # programs.ssh.startAgent = true;
 }

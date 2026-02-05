@@ -30,6 +30,11 @@
       set -g fish_key_bindings fish_vi_key_bindings
       bind -M insert \cr _fzf_search_history
       bind -M default \cr _fzf_search_history
+
+      # Use macOS launchd ssh-agent
+      # if test -z "$SSH_AUTH_SOCK"
+      #  set -x SSH_AUTH_SOCK (lsof -c ssh-agent 2>/dev/null | awk '/Listeners/{print $NF; exit}')
+      # end
       set -e fish_user_paths
       # fish_add_path "./node_modules"
       fish_add_path /usr/local/sbin

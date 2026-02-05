@@ -7,6 +7,9 @@ let
     test = "127.0.0.1"; # redirect all queries for *.test TLD to localhost
     localhost = "127.0.0.1"; # redirect all queries for *.localhost TLD to localhost
   };
+  # forwarders = {
+  #   "box.home" = "100.97.144.91";  # or "thebox.tail973b39.ts.net"
+  # };
   bind = "127.0.0.1";
   port = 53;
   args = [

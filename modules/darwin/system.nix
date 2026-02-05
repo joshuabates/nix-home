@@ -31,4 +31,6 @@
   
   # backwards compat; don't change?
   system.stateVersion = 5;
+  services.tailscale.enable = true;
+  # services.ssh-agent.enable = true;
 }
