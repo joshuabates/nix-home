@@ -34,7 +34,7 @@ vim.keymap.del('n', 'grn')
 vim.keymap.del('n', 'gra')
 vim.keymap.del('n', 'grr')
 vim.keymap.del('n', 'gri')
-vim.api.nvim_del_keymap('n', 'gt')
+-- vim.api.nvim_del_keymap('n', 'gt')
 -- vim.api.nvim_del_keymap('n', 'gT')
 
 keymap("i", "<F1>", "<Esc>", opts)

@@ -240,7 +240,7 @@ return {
         typescriptreact = { "biome", "biome-organize-imports", "eslint_d", "prettier", stop_after_first = true, lsp_format = "prefer" },
       },
       format_on_save = {
-        timeout_ms = 5000,
+        timeout_ms = 1000,
         lsp_format = "prefer",
       },
     },

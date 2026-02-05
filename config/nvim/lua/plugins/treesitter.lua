@@ -7,15 +7,21 @@ return {
     "JoosepAlviste/nvim-ts-context-commentstring",
     event = "VeryLazy",
   },
+  -- This isn't working
+  -- {
+  --   'ckolkey/ts-node-action',
+  --   dependencies = { 'nvim-treesitter' },
+  --   event = "VeryLazy",
+  --   opts = {},
+  --   keys = {
+  --     { "gC", function() require('ts-node-action.actions').cycle_case() end,     desc = "Cycle Case" },
+  --     { "gt", function() require('ts-node-action.actions').toggle_boolean() end, desc = "Toggle BOOL" },
+  --   }
+  -- },
   {
-    'ckolkey/ts-node-action',
-    dependencies = { 'nvim-treesitter' },
-    event = "VeryLazy",
-    opts = {},
-    keys = {
-      { "gC", function() require('ts-node-action.actions').cycle_case() end,     desc = "Cycle Case" },
-      { "gt", function() require('ts-node-action.actions').toggle_boolean() end, desc = "Toggle BOOL" },
-    }
+    "gregorias/coerce.nvim",
+    tag = 'v4.1.0',
+    config = true,
   },
   -- Automatically add closing tags for HTML and JSX
   {
