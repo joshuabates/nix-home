@@ -22,6 +22,7 @@
     overmind
     # poetry  # broken in nixpkgs - pbs-installer version conflict
     nodejs
+    emscripten
     yarn
     pnpm
     bun
