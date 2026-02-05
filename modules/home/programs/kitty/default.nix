@@ -9,6 +9,7 @@
 
   programs.kitty = {
     enable = true;
+    package = pkgs.emptyDirectory; # Use Homebrew for macOS permissions compatibility
     font = {
       name = "FiraCode Nerd Font";
       size = 16;

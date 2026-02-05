@@ -19,7 +19,7 @@
       # "contexts"
       "fantastical"
       "jordanbaird-ice"
-      # "kitty"
+      "kitty"
       "microsoft-edge"
       # "bettertouchtool"
       "chatgpt"
