@@ -48,6 +48,7 @@
       set -x EVENT_NOKQUEUE 1
       set -x FD_SETSIZE 10000
       zoxide init fish | source
+      mise activate fish | source
       [ -f $HOMEBREW_PREFIX/share/forgit/forgit.plugin.fish ]; and source $HOMEBREW_PREFIX/share/forgit/forgit.plugin.fish
     '';
     plugins = [

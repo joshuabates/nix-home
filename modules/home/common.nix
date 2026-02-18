@@ -30,6 +30,7 @@
     ruby-lsp
     rustc
     rustup
+    tokei
     sqlite
     direnv
     lazygit
@@ -42,6 +43,7 @@
     yt-dlp
     uv
     pm2
+    mise
 
     nodePackages.typescript-language-server
     vscode-langservers-extracted

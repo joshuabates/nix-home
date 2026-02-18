@@ -3,6 +3,8 @@
 {
   programs.tmux = {
     enable = true;
+    mouse = true;
+    shell = "/run/current-system/sw/bin/fish";
 
     extraConfig = ''
       # Vim-style pane navigation
