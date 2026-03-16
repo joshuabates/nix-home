@@ -10,8 +10,8 @@ This is a personal development environment configuration using Nix flakes, nix-d
 
 ### Initial Setup
 ```bash
-# Install Nix (if not already installed)
-curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+# Install Lix (if not already installed)
+curl -sSf -L https://install.lix.systems/lix | sh -s -- install
 
 # Apply configuration for the current machine
 nix run nix-darwin -- switch --flake .
