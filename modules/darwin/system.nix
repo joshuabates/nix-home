@@ -3,7 +3,7 @@
   system = {
     primaryUser = username;
     keyboard.enableKeyMapping = true;
-    keyboard.remapCapsLockToControl = true;
+    keyboard.remapCapsLockToControl = false;
 
     defaults = {  
       NSGlobalDomain = {

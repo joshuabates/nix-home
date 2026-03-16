@@ -69,6 +69,9 @@
     ".config/nvim" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Projects/nix-home/config/nvim";
     };
+    ".config/karabiner" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Projects/nix-home/config/karabiner";
+    };
     ".npmrc" = {
       text = ''prefix = ${config.home.homeDirectory}/.npm-global'';
     };

@@ -33,6 +33,7 @@
       # "firefox"
       # "spotify"
       # "transmission"
+      "karabiner-elements"
       "visual-studio-code"
       "mitmproxy"
       # "brave-browser"
