@@ -50,6 +50,7 @@
       jbatesm3-mbp16 = mkDarwinWorkstation "joshuabates" 501 "jbatesm3-mbp16" "aarch64-darwin";
       studio = mkDarwinWorkstation "joshua" 501 "studio" "aarch64-darwin";
       mb14 = mkDarwinWorkstation "joshua" 503 "mb14" "aarch64-darwin";
+      max = mkDarwinWorkstation "joshua" 501 "max" "aarch64-darwin";
     };
 
     nixosConfigurations = 
