@@ -10,13 +10,24 @@ This is a personal development environment configuration using Nix flakes, nix-d
 
 ### Initial Setup
 ```bash
-# Install Lix (if not already installed)
+# 1. Install Homebrew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# 2. Install Lix
 curl -sSf -L https://install.lix.systems/lix | sh -s -- install
 
-# Apply configuration for the current machine
-nix run nix-darwin -- switch --flake .
+# 3. Clone this repo
+git clone <repo-url> ~/Projects/nix-home && cd ~/Projects/nix-home
 
-# Change default shell to fish
+# 4. Bootstrap nix-darwin (handles Lix nix.conf automatically)
+sudo nix run github:nix-darwin/nix-darwin/master#darwin-rebuild -- switch --flake .
+
+# If it fails with "Unexpected files in /etc", the Lix nix.conf hash
+# is unrecognized — manually move and retry:
+#   sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
+#   sudo nix run github:nix-darwin/nix-darwin/master#darwin-rebuild -- switch --flake .
+
+# 5. Change default shell to fish
 chsh -s /run/current-system/sw/bin/fish
 ```
 
