@@ -23,9 +23,10 @@ git clone <repo-url> ~/Projects/nix-home && cd ~/Projects/nix-home
 sudo nix run github:nix-darwin/nix-darwin/master#darwin-rebuild -- switch --flake .
 
 # If it fails with "Unexpected files in /etc", the Lix nix.conf hash
-# is unrecognized — manually move and retry:
+# is unrecognized — manually move and retry with experimental features
+# flags (needed because nix.conf is no longer present to enable them):
 #   sudo mv /etc/nix/nix.conf /etc/nix/nix.conf.before-nix-darwin
-#   sudo nix run github:nix-darwin/nix-darwin/master#darwin-rebuild -- switch --flake .
+#   sudo nix --extra-experimental-features "nix-command flakes" run github:nix-darwin/nix-darwin/master#darwin-rebuild -- switch --flake .
 
 # 5. Change default shell to fish
 chsh -s /run/current-system/sw/bin/fish
