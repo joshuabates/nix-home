@@ -72,6 +72,9 @@
     ".config/karabiner" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Projects/nix-home/config/karabiner";
     };
+    "Library/Application Support/Tuna/config.toml" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Projects/nix-home/config/tuna/config.toml";
+    };
     ".npmrc" = {
       text = ''prefix = ${config.home.homeDirectory}/.npm-global'';
     };

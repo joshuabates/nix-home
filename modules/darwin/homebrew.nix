@@ -36,6 +36,7 @@
       "karabiner-elements"
       "visual-studio-code"
       "mitmproxy"
+      "tuna"
       "zen"
       # "brave-browser"
       "wireshark"

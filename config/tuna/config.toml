@@ -1,0 +1,64 @@
+schemaVersion = 1
+
+[catalogConfiguration]
+customFolders = []
+scriptsDirectories = []
+
+    [[catalogConfiguration.folderDepthOverrides]]
+    catalogIdentifier = 'TunaCore.UserFoldersCatalog'
+    depthRawValue = 2
+
+[extensions]
+enabledIdentifiers = [ 'com.brnbw.tuna.plugins.github', 'com.brnbw.tuna.plugins.notes', 'com.brnbw.tuna.plugins.reminders' ]
+
+[hotkeys]
+custom = []
+
+    [hotkeys.app.activate]
+    carbonKeyCode = 49
+    carbonModifiers = 4096
+
+    [hotkeys.app.leaderMode]
+    carbonKeyCode = 50
+    carbonModifiers = 4096
+
+[[leaderMode.bindings]]
+iconPath = 'book'
+key = 'o'
+label = 'Open'
+
+    [[leaderMode.bindings.children]]
+    key = 'f'
+    url = 'tuna://run/path.%252FSystem%252FLibrary%252FCoreServices%252FFinder.app/Open'
+
+    [[leaderMode.bindings.children]]
+    key = 'k'
+    url = 'tuna://run/TunaCore.AllApplicationsCatalog.kitty/Open'
+
+    [[leaderMode.bindings.children]]
+    key = 'z'
+    url = 'tuna://run/TunaCore.AllApplicationsCatalog.Zen/Open'
+
+    [[leaderMode.bindings.children]]
+    key = 'n'
+    url = 'tuna://run/path.%252FSystem%252FApplications%252FNotes.app/Open'
+
+[[leaderMode.bindings]]
+key = 'g'
+label = 'Go'
+
+    [[leaderMode.bindings.children]]
+    key = 'h'
+    url = 'tuna://run/path.%252FUsers%252Fjoshuabates/Open'
+
+    [[leaderMode.bindings.children]]
+    key = 'd'
+    url = 'tuna://run/path.%252FUsers%252Fjoshuabates%252FDownloads/Open'
+
+[settings]
+leaderModeCheatsheetBehavior = 'always'
+leaderModeModifierTrigger = 'rightCommand'
+leaderModeThemeStyle = 'cheatsheet'
+resultListNavigationBindings = 'vimStyle'
+spacebarBehavior = 'jumpToTargetPane'
+themeIdentifier = 'com.brnbw.tuna.themes.NormieBar'
