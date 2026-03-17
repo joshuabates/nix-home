@@ -10,6 +10,7 @@
 
     # taps = ["puma/puma"];
     # brews = ["puma/puma/puma-dev"];
+    brews = ["forgit"];
     casks = [
       "1password"
       # "alfred"
