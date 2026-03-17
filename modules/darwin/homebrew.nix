@@ -10,34 +10,35 @@
 
     # taps = ["puma/puma"];
     # brews = ["puma/puma/puma-dev"];
-    brews = ["forgit"];
     casks = [
       "1password"
       # "alfred"
       "arq"
+      "claude-code"
+      "codex"
       # "contexts"
       "fantastical"
-      "jordanbaird-ice"
+      "firefox"
       "kitty"
       "microsoft-edge"
       # "bettertouchtool"
       "chatgpt"
-      # "cyberduck"
-      # "daisydisk"
-      # "docker"
+      "cyberduck"
+      "daisydisk"
+      "docker"
       # "figma"
-      # "iina"
-      # "little-snitch"
-      # "plex"
-      # "firefox"
-      # "spotify"
-      # "transmission"
+      "iina"
+      "little-snitch"
+      "plex"
+      "spotify"
+      "transmission"
       "karabiner-elements"
       "visual-studio-code"
       "mitmproxy"
+      "zen"
       # "brave-browser"
-      # "wireshark"
-      # "xld"
+      "wireshark"
+      "xld"
     ];
 
     masApps = {

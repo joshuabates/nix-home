@@ -63,6 +63,7 @@
 
     zoxide
     ncurses
+    forgit
   ];
 
   home.file = {
